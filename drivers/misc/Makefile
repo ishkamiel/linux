@@ -61,6 +61,14 @@ lkdtm-$(CONFIG_LKDTM)		+= lkdtm_perms.o
 lkdtm-$(CONFIG_LKDTM)		+= lkdtm_rodata_objcopy.o
 lkdtm-$(CONFIG_LKDTM)		+= lkdtm_usercopy.o
 
+ifdef CONFIG_X86_INTEL_MPX_KERNEL
+	lkdtm-$(CONFIG_LKDTM)		+= lkdtm_bounds.o
+	lkdtm-$(CONFIG_LKDTM)		+= lkdtm_bounds_sep.o
+	LKDTM_MPXK_CFLAGS 		:= $(MPXK_CFLAGS)
+	CFLAGS_lkdtm_bounds.o		+= $(LKDTM_MPXK_CFLAGS)
+	CFLAGS_lkdtm_bounds_sep.o	+= $(LKDTM_MPXK_CFLAGS)
+endif
+
 OBJCOPYFLAGS :=
 OBJCOPYFLAGS_lkdtm_rodata_objcopy.o := \
 			--set-section-flags .text=alloc,readonly \

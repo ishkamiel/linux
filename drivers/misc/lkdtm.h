@@ -24,6 +24,18 @@ void lkdtm_ATOMIC_OVERFLOW(void);
 void lkdtm_CORRUPT_LIST_ADD(void);
 void lkdtm_CORRUPT_LIST_DEL(void);
 
+#ifdef CONFIG_X86_INTEL_MPX_KERNEL
+void lkdtm_MPX_BOUNDS_LOAD(void);
+void lkdtm_MPX_BOUNDS_FUNC_EXTERN(void);
+void lkdtm_MPX_BOUNDS_FUNC_INLINE(void);
+void lkdtm_MPX_BOUNDS_FUNC_STATIC(void);
+void lkdtm_MPX_BOUNDS_FUNC_NON_STATIC(void);
+void lkdtm_MPX_BOUNDS_WRAPPER(void);
+void lkdtm_MPXK_BND_BASIC(void);
+void lkdtm_MPXK_BND_ARRAY(void);
+void lkdtm_MPXK_BND_FUNC10(void);
+#endif
+
 /* lkdtm_heap.c */
 void lkdtm_OVERWRITE_ALLOCATION(void);
 void lkdtm_WRITE_AFTER_FREE(void);
@@ -58,5 +70,38 @@ void lkdtm_USERCOPY_STACK_FRAME_TO(void);
 void lkdtm_USERCOPY_STACK_FRAME_FROM(void);
 void lkdtm_USERCOPY_STACK_BEYOND(void);
 void lkdtm_USERCOPY_KERNEL(void);
+
+
+/* TODO: MPXK temporary stuff, remove after completion
+ *
+ * These are here to decrease copy-pase during testing, will remove later!
+ *
+ * */
+#define MPXK_VERIFY_BOUNDS(ptr, expected, exact) do {						\
+	unsigned long range = __bnd_get_ptr_ubound(ptr) - __bnd_get_ptr_lbound(ptr) + 1;	\
+	if (exact)										\
+		if (range != expected)								\
+			pr_info("%s: BAD_BOUNDS, was %lu, expected %lu\n",			\
+					__func__, range, expected);				\
+		else										\
+			pr_info("%s: bounds okay, was %lu, expected %lu\n",			\
+					__func__, range, expected);				\
+	 else											\
+		if (range < expected || range > expected * 16)					\
+			pr_info("%s: BAD_BOUNDS, was %lu, expected %lu <= bound <= %lu\n",	\
+					__func__, range, expected, expected*2);			\
+		else										\
+			pr_info("%s: bounds okay, was %lu, expected %lu <= bound <= %lu\n",	\
+					__func__, range, expected, expected*2);			\
+	} while (0)
+
+#define MPXK_VERIFY_BOUNDS_FIVE(a,b,c,d,e,ae,be,ce,de,ee) do {	\
+	verify_bounds(a, ae, false);				\
+	verify_bounds(b, be, false);				\
+	verify_bounds(c, ce, false);				\
+	verify_bounds(d, de, false);				\
+	verify_bounds(e, ee, false);				\
+} while (0)
+
 
 #endif

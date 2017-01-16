@@ -64,6 +64,13 @@ lkdtm-$(CONFIG_LKDTM)		+= lkdtm_usercopy.o
 
 KCOV_INSTRUMENT_lkdtm_rodata.o	:= n
 
+ifdef CONFIG_X86_INTEL_MPX_KERNEL
+	lkdtm-$(CONFIG_LKDTM)		+= lkdtm_mpxk.o
+	lkdtm-$(CONFIG_LKDTM)		+= lkdtm_mpxk_base.o
+	CFLAGS_lkdtm_mpxk.o		+= $(MPXK_CFLAGS)
+	CFLAGS_lkdtm_mpxk_base.o	+= $(MPXK_CFLAGS)
+endif
+
 OBJCOPYFLAGS :=
 OBJCOPYFLAGS_lkdtm_rodata_objcopy.o := \
 			--set-section-flags .text=alloc,readonly \

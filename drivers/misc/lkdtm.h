@@ -22,6 +22,13 @@ void lkdtm_HUNG_TASK(void);
 void lkdtm_ATOMIC_UNDERFLOW(void);
 void lkdtm_ATOMIC_OVERFLOW(void);
 
+#ifdef CONFIG_X86_INTEL_MPX_KERNEL
+void lkdtm_MPXK_LOAD_BOUNDS(void);
+void lkdtm_MPXK_FUNCTION_ARGS(void);
+void lkdtm_MPXK_KMALLOC(void);
+void lkdtm_MPXK_MEMCPY(void);
+#endif
+
 /* lkdtm_heap.c */
 void lkdtm_OVERWRITE_ALLOCATION(void);
 void lkdtm_WRITE_AFTER_FREE(void);

@@ -1771,6 +1771,25 @@ config X86_INTEL_MPX
 
 	  If unsure, say N.
 
+config X86_INTEL_MPX_KERNEL
+	prompt "Intel MPX for kernel"
+	def_bool n
+	depends on CPU_SUP_INTEL
+	select CONSTRUCTORS
+	select GCC_PLUGINS
+	---help---
+	  MPX provides hardware features that can be used in
+	  conjunction with compiler-instrumented code to check
+	  memory references.  It is designed to detect buffer
+	  overflow or underflow bugs.
+
+	  This option enables MPXK, which is a slightly modified
+	  MPX instrumentation for in-kernel code.  This
+	  protection is modular and even when enabled covers
+	  only code that explicitly use this feature.
+
+	  If unsure, say N
+
 config X86_INTEL_MEMORY_PROTECTION_KEYS
 	prompt "Intel Memory Protection Keys"
 	def_bool y

@@ -18,10 +18,15 @@
 
 #define MMCF_AARCH32	0x1	/* mm context flag for AArch32 executables */
 
+#include <asm/pointer_auth.h>
+
 typedef struct {
 	atomic64_t	id;
 	void		*vdso;
 	unsigned long	flags;
+#ifdef CONFIG_ARM64_PTR_AUTH
+	struct ptrauth_keys	ptrauth_keys;
+#endif
 } mm_context_t;
 
 /*

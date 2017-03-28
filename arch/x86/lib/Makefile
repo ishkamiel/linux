@@ -26,6 +26,11 @@ lib-$(CONFIG_RWSEM_XCHGADD_ALGORITHM) += rwsem.o
 lib-$(CONFIG_INSTRUCTION_DECODER) += insn.o inat.o
 lib-$(CONFIG_RANDOMIZE_BASE) += kaslr.o
 
+lib-$(CONFIG_X86_INTEL_MPX_KERNEL) += mpxk-wrappers.o
+lib-$(CONFIG_X86_INTEL_MPX_KERNEL) += mpxk.o
+CFLAGS_mpxk-wrappers.o += $(MPXK_LIB_CFLAGS)
+CFLAGS_mpxk.o += $(MPXK_LIB_CFLAGS)
+
 obj-y += msr.o msr-reg.o msr-reg-export.o hweight.o
 
 ifeq ($(CONFIG_X86_32),y)

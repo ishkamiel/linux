@@ -5,13 +5,19 @@
 #include <asm/ptrace.h>
 #include <asm/insn.h>
 
+#include <linux/slab.h>
+#include <asm/page.h>
+#include <asm/pgtable_64.h>
+#include <linux/page-flags.h>
+
 /*
  * NULL is theoretically a valid place to put the bounds
  * directory, so point this at an invalid address.
  */
 #define MPX_INVALID_BOUNDS_DIR	((void __user *)-1)
-#define MPX_BNDCFG_ENABLE_FLAG	0x1
-#define MPX_BD_ENTRY_VALID_FLAG	0x1
+#define MPX_BNDCFG_ENABLE_FLAG		0x1
+#define MPX_BNDCFG_PRESERVE_FLAG	0x2
+#define MPX_BD_ENTRY_VALID_FLAG 	0x1
 
 /*
  * The upper 28 bits [47:20] of the virtual address in 64-bit
@@ -93,5 +99,7 @@ static inline void mpx_notify_unmap(struct mm_struct *mm,
 {
 }
 #endif /* CONFIG_X86_INTEL_MPX */
+
+extern void mpxk_enable_mpx(void);
 
 #endif /* _ASM_X86_MPX_H */

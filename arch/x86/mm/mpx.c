@@ -20,6 +20,22 @@
 #define CREATE_TRACE_POINTS
 #include <asm/trace/mpx.h>
 
+#ifdef CONFIG_X86_INTEL_MPX_KERNEL
+static struct msr bnd_cfg_s;
+/* TODO: Add an update mechanism that sets a safe bnd_dir and sets it.
+ *
+ * The bnd_dir must be *valid* (NULL is ok), i.e. MPX_INVALID_BOUNDS_DIR doesn't do!
+ *
+ * Depending on where we end up using this we might need to rely on the unsafe 
+ * NULL bnd_dir until we can reserve memory properly. Currenlty this is not updated
+ * and only set to NULL in the mpxk_constructor that gets called using the 
+ * GCC constructor mechanism. 
+ *
+ * Not sure where, and when, to properly set this?
+ * */
+static void *bnd_dir = NULL;
+#endif /* CONFIG_X86_INTEL_MPX_KERNEL */
+
 static inline unsigned long mpx_bd_size_bytes(struct mm_struct *mm)
 {
 	if (is_64bit_mm(mm))
@@ -1037,3 +1053,35 @@ void mpx_notify_unmap(struct mm_struct *mm, struct vm_area_struct *vma,
 	if (ret)
 		force_sig(SIGSEGV, current);
 }
+
+#ifdef CONFIG_X86_INTEL_MPX_KERNEL
+
+static void
+mpxk_enable_mpx_cfgs_cpu(void *info)
+{
+	(void) info;
+	wrmsrl(MSR_IA32_BNDCFGS, bnd_cfg_s.q);
+}
+
+extern void
+mpxk_enable_mpx(void)
+{
+	bnd_cfg_s.q = (unsigned long) bnd_dir;
+	bnd_cfg_s.q |= MPX_BNDCFG_ENABLE_FLAG;
+	bnd_cfg_s.q |= MPX_BNDCFG_PRESERVE_FLAG;
+
+	pr_info("Writing IA32_BNDCFGS MSR");
+	on_each_cpu(mpxk_enable_mpx_cfgs_cpu, NULL, 1);
+}
+
+__attribute__((constructor))
+void mpxk_constructor(void)
+{
+	mpxk_enable_mpx();
+}
+
+#else
+extern void mpxk_enable_mpx(void) {}
+#endif /* CONFIG_X86_INTEL_MPX_KERNEL */
+/* TODO: Remove this unless we actually end up needing it exported */
+EXPORT_SYMBOL(mpxk_enable_mpx);

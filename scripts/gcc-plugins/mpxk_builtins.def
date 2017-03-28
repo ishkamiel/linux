@@ -1,0 +1,50 @@
+/*
+ * mpxk_builtins.def - Contain the MPXK wrapper definitions
+ *
+ * This is just kept here to centralize these names definitions.
+ *
+ * Copyright (C) 2017 Hans Liljestrand <LiljestrandH@gmail.com>
+ *
+ * This file is released under the GPLv2.
+ */
+#ifndef MPXK_PTR
+#define MPXK_PTR(x) x
+#define MPXK_UNSET_PTR 1
+#endif /* MPXK_PTR */
+
+#ifndef MPXK_NR
+#define MPXK_NR(x) x
+#define MPXK_UNSET_NR 1
+#endif /* MPXK_NR */
+
+#ifndef MPXK_VOID
+#define MPXK_VOID(x) x
+#define MPXK_UNSET_VOID 1
+#endif /* MPXK_VOID */
+
+#ifndef MPXK_BODY
+#define MPXK_BODY(x) x
+#define MPXK_UNSET_BODY 1
+#endif /* MPXK_VOID */
+
+MPXK_BUILTIN_DEF(void *, 	mpxk_load_bounds, 	MPXK_PTR(void * p))
+MPXK_WRAPPER_DEF(void *, 	kmalloc, 		MPXK_NR(size_t p), MPXK_NR(gfp_t f))
+
+#ifdef MPXK_UNSET_PTR
+#undef MPXK_UNSET_PTR
+#undef MPXK_PTR
+#endif
+#ifdef MPXK_UNSET_NR
+#undef MPXK_UNSET_NR
+#undef MPXK_NR
+#endif
+#ifdef MPXK_UNSET_PTR
+#undef MPXK_UNSET_PTR
+#undef MPXK_PTR
+#endif
+#ifdef MPXK_UNSET_BODY
+#undef MPXK_UNSET_BODY
+#undef MPXK_BODy
+#endif
+
+// vim: ft=cpp

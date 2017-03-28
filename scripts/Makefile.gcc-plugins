@@ -25,7 +25,21 @@ ifdef CONFIG_GCC_PLUGINS
     endif
   endif
 
+  ifdef CONFIG_X86_INTEL_MPX_KERNEL
+    MPXK_PLUGIN := -fplugin=$(objtree)/scripts/gcc-plugins/mpxk.so
+    gcc-plugin-$(CONFIG_X86_INTEL_MPX_KERNEL)		+= mpxk.so
+
+    MPXK_LDFLAGS := -mmpx
+    MPXK_CFLAGS := -mmpx -fcheck-pointer-bounds $(MPXK_PLUGIN)
+    # MPXK_CFLAGS := -mmpx -fcheck-pointer-bounds $(MPXK_PLUGIN) -DDEBUG -g -fdump-passes
+    # TODO: The lib flags can eventually be moved to whereever we need them.
+    MPXK_LIB_CFLAGS := -mmpx -fcheck-pointer-bounds $(MPXK_PLUGIN)
+    # MPXK_CFLAGS += -include $(srctree)/scripts/gcc-plugins/mpxk_include.h
+    export MPXK_PLUGIN MPXK_LDFLAGS MPXK_CFLAGS MPXK_LIB_CFLAGS
+  endif
+
   GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
+  GCC_PLUGINS_CFLAGS := $(filter-out $(MPXK_PLUGIN), $(GCC_PLUGINS_CFLAGS))
 
   export PLUGINCC GCC_PLUGINS_CFLAGS GCC_PLUGIN GCC_PLUGIN_SUBDIR
   export SANCOV_PLUGIN DISABLE_LATENT_ENTROPY_PLUGIN

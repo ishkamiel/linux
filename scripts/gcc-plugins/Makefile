@@ -23,6 +23,12 @@ always := $($(HOSTLIBS)-y)
 
 $(foreach p,$($(HOSTLIBS)-y:%.so=%),$(eval $(p)-objs := $(p).o))
 
+mpxk-objs					+= mpxk_builtins.o
+mpxk-objs					+= mpxk_pass_wrappers.o
+mpxk-objs					+= mpxk_pass_bnd_store.o
+mpxk-objs					+= mpxk_pass_rm_bndstx.o
+mpxk-objs					+= mpxk_pass_cfun_args.o
+
 subdir-y := $(GCC_PLUGIN_SUBDIR)
 subdir-  += $(GCC_PLUGIN_SUBDIR)
 

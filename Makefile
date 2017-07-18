@@ -373,6 +373,11 @@ LDFLAGS_vmlinux =
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -fno-tree-loop-im -Wno-maybe-uninitialized
 CFLAGS_KCOV	:= $(call cc-option,-fsanitize-coverage=trace-pc,)
 
+ifdef CONFIG_X86_INTEL_MPX_KERNEL
+	LDFLAGS_vmlinux := --push-sate --no-as-needed -lmpx --pop-state
+	LDFLAGS_MODULE := --push-sate --no-as-needed -lmpx --pop-state
+endif
+
 
 # Use USERINCLUDE when you must reference the UAPI directories only.
 USERINCLUDE    := \

@@ -87,6 +87,7 @@
 #include <asm/setup.h>
 #include <asm/sections.h>
 #include <asm/cacheflush.h>
+#include <asm/mpxk.h>
 
 static int kernel_init(void *);
 
@@ -865,6 +866,7 @@ static void __init do_basic_setup(void)
 	driver_init();
 	init_irq_proc();
 	do_ctors();
+	mpxk_enable_mpx();
 	usermodehelper_enable();
 	do_initcalls();
 	random_int_secret_init();

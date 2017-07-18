@@ -46,3 +46,8 @@ else
         lib-y += copy_user_64.o
 	lib-y += cmpxchg16b_emu.o
 endif
+
+lib-$(CONFIG_X86_INTEL_MPX_KERNEL) += mpxk.o
+lib-$(CONFIG_X86_INTEL_MPX_KERNEL) += mpxk-wrappers.o
+CFLAGS_mpxk.o 		+= $(MPXK_LIB_CFLAGS)
+CFLAGS_mpxk-wrappers.o 	+= $(MPXK_LIB_CFLAGS)

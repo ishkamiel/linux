@@ -344,6 +344,48 @@ dotraplinkage void do_double_fault(struct pt_regs *regs, long error_code)
 }
 #endif
 
+inline bool do_bounds_kernel(struct pt_regs *regs, long error_code)
+{
+#ifndef CONFIG_X86_INTEL_MPX_KERNEL
+	die("bounds", regs, error_code);
+#else
+	const struct mpx_bndcsr *bndcsr;
+	const char *err = NULL;
+
+	if (!cpu_feature_enabled(X86_FEATURE_MPX)) {
+		err = "cpu_feature_enabled(X86_FEATURE_MPX)";
+	} else {
+		bndcsr = get_xsave_field_ptr(XFEATURE_MASK_BNDCSR);
+		if (!bndcsr) {
+			err = "get_xsave_field_ptr failed";
+		} else {
+			trace_bounds_exception_mpx(bndcsr);
+
+			switch (bndcsr->bndstatus & MPX_BNDSTA_ERROR_CODE) {
+			case 2:	/* Bound directory has invalid entry. */
+				err = "invalid bound directory entry";
+				break;
+			case 1: /* Bound violation. */
+				err = "bounds violation!!!!";
+				break;
+			case 0: /* No exception caused by Intel MPX. */
+				err = "no Intel MPX exception found!?!";
+				break;
+			default:
+				err = "unrecognized bounds(?) error";
+				break;
+			}
+		}
+	}
+
+	if (err != NULL) {
+		pr_err("mpxk: %s\n", err);
+		BUG();
+	}
+	return true;
+#endif /* CONFIG_X86_INTEL_MPX_KERNEL */
+}
+
 dotraplinkage void do_bounds(struct pt_regs *regs, long error_code)
 {
 	const struct mpx_bndcsr *bndcsr;
@@ -356,7 +398,7 @@ dotraplinkage void do_bounds(struct pt_regs *regs, long error_code)
 	cond_local_irq_enable(regs);
 
 	if (!user_mode(regs))
-		die("bounds", regs, error_code);
+		do_bounds_kernel(regs, error_code);
 
 	if (!cpu_feature_enabled(X86_FEATURE_MPX)) {
 		/* The exception is not from Intel MPX */

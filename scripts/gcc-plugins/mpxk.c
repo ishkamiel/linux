@@ -44,16 +44,16 @@ __visible int plugin_init(struct plugin_name_args *plugin_info, struct plugin_gc
 	/* Insert the specialized MPXK passes */
 
 	/* Replace wrappables with mpxk_wrappers. */
-	register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL,
-			  get_mpxk_wrappers_pass_info());
+	/* register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL, */
+	/* 		  get_mpxk_wrappers_pass_info()); */
 
 	/* Remove bndldx/bndstx calls.*/
-	register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL,
-			  get_mpxk_bnd_store_pass_info());
+	/* register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL, */
+	/* 		  get_mpxk_bnd_store_pass_info()); */
 
 	/* Handle incoming bounds arguments. */
-	register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL,
-			  get_mpxk_cfun_args_pass_info());
+	/* register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL, */
+	/* 		  get_mpxk_cfun_args_pass_info()); */
 
 	/* Brute force removal of all BNDSTX/BNDLDX instructions */
 	register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL,
@@ -71,14 +71,12 @@ static void mpxk_plugin_finish(void *gcc_data, void *user_data)
 	(void) gcc_data;
 	(void) user_data;
 
-#ifdef MPXK_DEBUG
 	expanded_location loc = expand_location(input_location);
 
 	fprintf(stderr, "SUMMARY: bndstx[%d+%d=>%d], bndldx[%d+%d=>%d], wraps[%d] (%s)\n",
 			mpxk_stats.dropped_stx, mpxk_stats.dropped_stx_brute, mpxk_stats.sweep_stx,
 			mpxk_stats.dropped_ldx, mpxk_stats.cfun_ldx, mpxk_stats.sweep_ldx,
 			mpxk_stats.wrappers_added, loc.file);
-#endif
 }
 
 bool skip_execute(const char *attr) {

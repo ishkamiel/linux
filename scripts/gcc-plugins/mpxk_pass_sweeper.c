@@ -41,6 +41,7 @@ static unsigned int mpxk_sweeper_execute(void)
 	if (skip_execute(NULL)) return 0;
 
 	loc = expand_location(DECL_SOURCE_LOCATION(current_function_decl));
+	dsay("Running sweeper on %s:%s", loc.file, cfun_name);
 
 	bb = ENTRY_BLOCK_PTR_FOR_FN (cfun)->next_bb;
 	do {
@@ -54,7 +55,7 @@ static unsigned int mpxk_sweeper_execute(void)
 				if (contains_unspec(r, UNSPEC_BNDSTX)) {
 					dsay("SWEEPER_WARNING => removed bndstx at %s:%d",
 							loc.file, loc.line);
-					delete_insn(insn);
+					/* delete_insn(insn); */
 					mpxk_stats.sweep_stx++;
 					found++;
 				}
@@ -62,7 +63,7 @@ static unsigned int mpxk_sweeper_execute(void)
 				    contains_unspec(r, UNSPEC_BNDLDX_ADDR)) {
 					dsay("SWEEPER_WARNING => removed bndldx at %s:%d",
 							loc.file, loc.line);
-					delete_insn(insn);
+					/* delete_insn(insn); */
 					mpxk_stats.sweep_ldx++;
 					found++;
 				}

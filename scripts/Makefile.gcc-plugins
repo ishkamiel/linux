@@ -43,6 +43,7 @@ ifdef CONFIG_GCC_PLUGINS
 
   GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
   GCC_PLUGINS_CFLAGS := $(filter-out $(MPXK_PLUGIN), $(GCC_PLUGINS_CFLAGS))
+  GCC_PLUGINS_CFLAGS += $(MPXK_CFLAGS)
 
   export PLUGINCC GCC_PLUGINS_CFLAGS GCC_PLUGIN GCC_PLUGIN_SUBDIR
   export SANCOV_PLUGIN DISABLE_LATENT_ENTROPY_PLUGIN

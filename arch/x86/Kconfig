@@ -1772,10 +1772,10 @@ config X86_INTEL_MPX
 	  If unsure, say N.
 
 config X86_INTEL_MPX_KERNEL
-	prompt "Intel MPX for kernel"
+	prompt "Intel MPX for kernel (MPXK)"
 	def_bool n
 	depends on CPU_SUP_INTEL
-	select CONSTRUCTORS
+	depends on HAVE_GCC_PLUGINS
 	select GCC_PLUGINS
 	---help---
 	  MPX provides hardware features that can be used in

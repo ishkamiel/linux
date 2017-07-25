@@ -26,6 +26,12 @@ void mpxk_enable_mpx(void)
 {
 	void *ptr = get_vm_area(MPX_BD_SIZE_BYTES_64 + PAGE_SIZE, VM_MAP);
 
+	if (!cpu_feature_enabled(X86_FEATURE_MPX)) {
+		pr_info("mpxk: Intel MPX not available\n");
+		kfree(ptr); /* TODO: Check on whether kfree is correct */
+		return;
+	}
+
 	bnd_cfg_s.q = PAGE_ALIGN((unsigned long) ptr);
 	bnd_cfg_s.q |= MPX_BNDCFG_ENABLE_FLAG;
 

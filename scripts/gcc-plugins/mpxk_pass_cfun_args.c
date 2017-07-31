@@ -76,17 +76,13 @@ static unsigned int mpxk_cfun_args_execute(void)
 				gcc_assert(prev != NULL);
 				insert_mpxk_bound_load(&iter, prev, l);
 			}
-
-			p = &TREE_CHAIN(l);
 		} else {
 			dsay("skipping non-bound argument #%d", arg_count);
 			prev = l;
 			arg_count++;
-			p = &TREE_CHAIN(l);
 		}
 
-		/* The previous arg is needed if we need a MPXK load. */
-		*p = TREE_CHAIN(l);
+		p = &TREE_CHAIN(l);
 	}
 
 	bound_count = (bound_count <= MPXK_BND_REGS ? 0 :

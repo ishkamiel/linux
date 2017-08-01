@@ -29,12 +29,11 @@ void lkdtm_CORRUPT_LIST_ADD(void);
 void lkdtm_CORRUPT_LIST_DEL(void);
 void lkdtm_CORRUPT_USER_DS(void);
 
-#ifdef CONFIG_X86_INTEL_MPX_KERNEL
+/* lkdtm_mpxk.c */
 void lkdtm_MPXK_LOAD_BOUNDS(void);
 void lkdtm_MPXK_FUNCTION_ARGS(void);
 void lkdtm_MPXK_KMALLOC(void);
 void lkdtm_MPXK_MEMCPY(void);
-#endif
 
 /* lkdtm_heap.c */
 void lkdtm_OVERWRITE_ALLOCATION(void);

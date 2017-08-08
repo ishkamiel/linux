@@ -161,6 +161,7 @@ static int sfi_verify_table(struct sfi_table_header *table)
  * Check for common case that we can re-use mapping to SYST,
  * which requires syst_pa, syst_va to be initialized.
  */
+__attribute__((bnd_legacy))
 static struct sfi_table_header *sfi_map_table(u64 pa)
 {
 	struct sfi_table_header *th;
@@ -189,6 +190,7 @@ static struct sfi_table_header *sfi_map_table(u64 pa)
  * Undoes effect of sfi_map_table() by unmapping table
  * if it did not completely fit on same page as SYST.
  */
+__attribute__((bnd_legacy))
 static void sfi_unmap_table(struct sfi_table_header *th)
 {
 	if (!TABLE_ON_PAGE(syst_va, th, th->len))

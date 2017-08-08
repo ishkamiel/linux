@@ -411,6 +411,7 @@ static inline struct list_head *sctp_list_dequeue(struct list_head *list)
  * of the way we have to do receive buffer accounting on bundled
  * chunks.
  */
+__attribute__((bnd_legacy))
 static inline void sctp_skb_set_owner_r(struct sk_buff *skb, struct sock *sk)
 {
 	struct sctp_ulpevent *event = sctp_skb2event(skb);

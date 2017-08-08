@@ -1312,6 +1312,7 @@ out:
 }
 EXPORT_SYMBOL(inet_gso_segment);
 
+__attribute__((bnd_legacy))
 struct sk_buff **inet_gro_receive(struct sk_buff **head, struct sk_buff *skb)
 {
 	const struct net_offload *ops;

@@ -315,6 +315,7 @@ static inline void eth_hw_addr_inherit(struct net_device *dst,
  *
  * Please note: addr1 & addr2 must both be aligned to u16.
  */
+__attribute__((bnd_legacy))
 static inline bool ether_addr_equal(const u8 *addr1, const u8 *addr2)
 {
 #if defined(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS)

@@ -361,6 +361,7 @@ struct llc_xid_info {
  *	This function sets third,fourth,fifth and sixth bytes of LLC header as
  *	a XID PDU.
  */
+__attribute__((bnd_legacy))
 static inline void llc_pdu_init_as_xid_cmd(struct sk_buff *skb,
 					   u8 svcs_supported, u8 rx_window)
 {
@@ -385,6 +386,7 @@ static inline void llc_pdu_init_as_xid_cmd(struct sk_buff *skb,
  *
  *	Builds a pdu frame as an XID response.
  */
+__attribute__((bnd_legacy))
 static inline void llc_pdu_init_as_xid_rsp(struct sk_buff *skb,
 					   u8 svcs_supported, u8 rx_window)
 {

@@ -217,6 +217,7 @@ void llc_pdu_init_as_dm_rsp(struct sk_buff *skb, u8 f_bit)
  *
  *	Builds a pdu frame as a FRMR response.
  */
+__attribute__((bnd_legacy))
 void llc_pdu_init_as_frmr_rsp(struct sk_buff *skb, struct llc_pdu_sn *prev_pdu,
 			      u8 f_bit, u8 vs, u8 vr, u8 vzyxw)
 {

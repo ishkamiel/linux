@@ -104,6 +104,7 @@ static inline u32 batadv_choose_backbone_gw(const void *data, u32 size)
  *
  * Return: true if the backbones have the same data, false otherwise
  */
+__attribute__((bnd_legacy))
 static bool batadv_compare_backbone_gw(const struct hlist_node *node,
 				       const void *data2)
 {
@@ -128,6 +129,7 @@ static bool batadv_compare_backbone_gw(const struct hlist_node *node,
  *
  * Return: true if the claim have the same data, 0 otherwise
  */
+__attribute__((bnd_legacy))
 static bool batadv_compare_claim(const struct hlist_node *node,
 				 const void *data2)
 {

@@ -18,29 +18,58 @@
 #undef MPXK_WRAPPER_DEF
 #undef MPXK_BUILTIN_DEF
 
-void *mpxk_wrapper_kmalloc(size_t s, gfp_t f)
+#define wrapper_base(func) __mpxk_wrapper_base_##func
+
+#define wrapper1(func, retval, a1t, a1v)		\
+	__attribute__((bnd_legacy)) static inline	\
+	retval __mpxk_wrapper_base_##func(a1t a1v)	\
+	{						\
+		return func(a1v);			\
+	}						\
+							\
+	retval mpxk_wrapper_##func(a1t a1v)
+
+#define wrapper2(func, retval, a1t, a1v, a2t, a2v)		\
+	__attribute__((bnd_legacy)) static inline		\
+	retval __mpxk_wrapper_base_##func(a1t a1v, a2t a2v)	\
+	{							\
+		return func(a1v, a2v);				\
+	}							\
+								\
+	retval mpxk_wrapper_##func(a1t a1v, a2t a2v)
+
+#define wrapper3(func, retval, a1t, a1v, a2t, a2v, a3t, a3v)		\
+	__attribute__((bnd_legacy)) static inline			\
+	retval __mpxk_wrapper_base_##func(a1t a1v, a2t a2v, a3t a3v)	\
+	{								\
+		return func(a1v, a2v, a3v);				\
+	}								\
+									\
+	retval mpxk_wrapper_##func(a1t a1v, a2t a2v, a3t a3v)
+
+wrapper2(kmalloc, void *, size_t, s, gfp_t, f)
 {
-	void *p = kmalloc(s, f);
+	void *p = wrapper_base(kmalloc)(s, f);
 
 	if (p)
 		return __bnd_set_ptr_bounds(p, s);
 	return __bnd_null_ptr_bounds(p);
 }
 
-void *mpxk_wrapper_krealloc(void *p, size_t s, gfp_t f)
+wrapper3(krealloc, void *, void *, p, size_t, s, gfp_t, f)
 {
 	if (!p)
 		return mpxk_wrapper_kmalloc(s, f);
 
 	__bnd_chk_ptr_lbounds(p);
-	p = krealloc(p, s, f);
+	p = wrapper_base(krealloc)(p, s, f);
 
 	if (p)
 		return __bnd_set_ptr_bounds(p, s);
 	return __bnd_null_ptr_bounds(p);
 }
 
-void *mpxk_wrapper_memmove(void *d, const void *s, size_t c)
+wrapper3(memmove, void *, void *, d, const void *, s, size_t, c)
 {
 	if (c == 0)
 		return d;
@@ -48,10 +77,10 @@ void *mpxk_wrapper_memmove(void *d, const void *s, size_t c)
 	__bnd_chk_ptr_bounds(d, c);
 	__bnd_chk_ptr_bounds(s, c);
 
-	return memmove(d, s, c);
+	return wrapper_base(memmove)(d, s, c);
 }
 
-void *mpxk_wrapper_memcpy(void *d, const void *s, size_t c)
+wrapper3(memcpy, void *, void *, d, const void *, s, size_t,  c)
 {
 	if (c == 0)
 		return d;
@@ -59,7 +88,7 @@ void *mpxk_wrapper_memcpy(void *d, const void *s, size_t c)
 	__bnd_chk_ptr_bounds(d, c);
 	__bnd_chk_ptr_bounds(s, c);
 
-	return memcpy(d, s, c);
+	return wrapper_base(memcpy)(d, s, c);
 }
 
 /* Because the MPXK gcc-plugin works on preprocessed code it cannot properly
@@ -67,7 +96,7 @@ void *mpxk_wrapper_memcpy(void *d, const void *s, size_t c)
  * This probably needs to be solved in some cleaner way, and probably also
  * affects other function besides memcpy.
  */
-void *mpxk_wrapper___inline_memcpy(void *d, const void *s, size_t c)
+wrapper3(__inline_memcpy, void *, void *, d, const void *, s, size_t,  c)
 {
 	if (c == 0)
 		return d;
@@ -75,10 +104,10 @@ void *mpxk_wrapper___inline_memcpy(void *d, const void *s, size_t c)
 	__bnd_chk_ptr_bounds(d, c);
 	__bnd_chk_ptr_bounds(s, c);
 
-	return __inline_memcpy(d, s, c);
+	return wrapper_base(__inline_memcpy)(d, s, c);
 }
 
-void *mpxk_wrapper___memcpy(void *d, const void *s, size_t c)
+wrapper3(__memcpy, void *, void *, d, const void *, s, size_t,  c)
 {
 	if (c == 0)
 		return d;
@@ -86,72 +115,72 @@ void *mpxk_wrapper___memcpy(void *d, const void *s, size_t c)
 	__bnd_chk_ptr_bounds(d, c);
 	__bnd_chk_ptr_bounds(s, c);
 
-	return __memcpy(d, s, c);
+	return wrapper_base(__memcpy)(d, s, c);
 }
 
-void *mpxk_wrapper_memset(void *s, int c, size_t l)
+wrapper3(memset, void *, void *, s, int,  c, size_t,  l)
 {
 	if (l > 0) {
 		__bnd_chk_ptr_bounds(s, l);
-		memset(s, c, l);
+		wrapper_base(memset)(s, c, l);
 	}
 	return s;
 }
 
-char *mpxk_wrapper_strcat(char *d, const char *s)
+wrapper1(strlen, size_t, const char *, s)
 {
-	size_t ds = mpxk_wrapper_strlen(d);
-	size_t ss = mpxk_wrapper_strlen(s);
+	const size_t l = wrapper_base(strlen)(s);
+
+	__bnd_chk_ptr_bounds(s, l + 1);
+	return l;
+}
+
+wrapper2(strnlen, size_t, const char *, s, size_t,  c)
+{
+	const size_t l = wrapper_base(strnlen)(s, c);
+
+	__bnd_chk_ptr_bounds(s, l + 1);
+	return l;
+}
+
+wrapper2(strcat, char *, char *, d, const char *, s)
+{
+	size_t ds = wrapper_base(strlen)(d);
+	size_t ss = wrapper_base(strlen)(s);
 
 	__bnd_chk_ptr_bounds(d, ds + ss + 1);
 	__bnd_chk_ptr_bounds(s, ss + 1);
 
-	return strcat(d, s);
+	return wrapper_base(strcat)(d, s);
 }
 
-char *mpxk_wrapper_strncat(char *d, const char *s, size_t c)
+wrapper3(strncat, char *, char *, d, const char *, s, size_t,  c)
 {
-	size_t ds = mpxk_wrapper_strlen(d);
-	size_t ss = mpxk_wrapper_strnlen(s, c);
+	size_t ds = wrapper_base(strlen)(d);
+	size_t ss = wrapper_base(strnlen)(s, c);
 
 	__bnd_chk_ptr_bounds(d, ds + ss + 1);
 	__bnd_chk_ptr_bounds(s, (ss < c ? ss + 1 : ss));
 
-	return strncat(d, s, c);
+	return wrapper_base(strncat)(d, s, c);
 }
 
-char *mpxk_wrapper_strcpy(char *d, const char *s)
+wrapper2(strcpy, char *, char *, d, const char *, s)
 {
-	size_t ss = mpxk_wrapper_strlen(s);
+	size_t ss = wrapper_base(strlen)(s);
 
 	__bnd_chk_ptr_bounds(d, ss + 1);
 	__bnd_chk_ptr_bounds(s, ss + 1);
 
-	return strcpy(d, s);
+	return wrapper_base(strcpy)(d, s);
 }
 
-char *mpxk_wrapper_strncpy(char *d, const char *s, size_t c)
+wrapper3(strncpy, char *, char *, d, const char *, s, size_t,  c)
 {
-	size_t ss = strnlen(s, c);
+	size_t ss = wrapper_base(strnlen)(s, c);
 
 	__bnd_chk_ptr_bounds(d, c);
 	__bnd_chk_ptr_bounds(s, (ss < c ? ss + 1 : ss));
 
-	return strncpy(d, s, c);
-}
-
-size_t mpxk_wrapper_strlen(const char *s)
-{
-	const size_t l = strlen(s);
-
-	__bnd_chk_ptr_bounds(s, l + 1);
-	return l;
-}
-
-size_t mpxk_wrapper_strnlen(const char *s, size_t c)
-{
-	const size_t l = strnlen(s, c);
-
-	__bnd_chk_ptr_bounds(s, l + 1);
-	return l;
+	return wrapper_base(strncpy)(d, s, c);
 }

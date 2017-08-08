@@ -19,6 +19,7 @@
 #undef MPXK_BUILTIN_DEF
 
 #define wrapper_base(func) __mpxk_wrapper_base_##func
+#define export_wrapper(func) EXPORT_SYMBOL(mpxk_wrapper_##func)
 
 #define wrapper1(func, retval, a1t, a1v)		\
 	__attribute__((bnd_legacy)) static inline	\
@@ -55,6 +56,7 @@ wrapper2(kmalloc, void *, size_t, s, gfp_t, f)
 		return __bnd_set_ptr_bounds(p, s);
 	return __bnd_null_ptr_bounds(p);
 }
+export_wrapper(kmalloc);
 
 wrapper3(krealloc, void *, void *, p, size_t, s, gfp_t, f)
 {
@@ -68,6 +70,7 @@ wrapper3(krealloc, void *, void *, p, size_t, s, gfp_t, f)
 		return __bnd_set_ptr_bounds(p, s);
 	return __bnd_null_ptr_bounds(p);
 }
+export_wrapper(krealloc);
 
 wrapper3(memmove, void *, void *, d, const void *, s, size_t, c)
 {
@@ -79,6 +82,7 @@ wrapper3(memmove, void *, void *, d, const void *, s, size_t, c)
 
 	return wrapper_base(memmove)(d, s, c);
 }
+export_wrapper(memmove);
 
 wrapper3(memcpy, void *, void *, d, const void *, s, size_t,  c)
 {
@@ -90,6 +94,7 @@ wrapper3(memcpy, void *, void *, d, const void *, s, size_t,  c)
 
 	return wrapper_base(memcpy)(d, s, c);
 }
+export_wrapper(memcpy);
 
 /* Because the MPXK gcc-plugin works on preprocessed code it cannot properly
  * handle macro expanded calls such as potential memcpy -> __memcpy changes.
@@ -106,6 +111,7 @@ wrapper3(__inline_memcpy, void *, void *, d, const void *, s, size_t,  c)
 
 	return wrapper_base(__inline_memcpy)(d, s, c);
 }
+export_wrapper(__inline_memcpy);
 
 wrapper3(__memcpy, void *, void *, d, const void *, s, size_t,  c)
 {
@@ -117,6 +123,7 @@ wrapper3(__memcpy, void *, void *, d, const void *, s, size_t,  c)
 
 	return wrapper_base(__memcpy)(d, s, c);
 }
+export_wrapper(__memcpy);
 
 wrapper3(memset, void *, void *, s, int,  c, size_t,  l)
 {
@@ -126,6 +133,7 @@ wrapper3(memset, void *, void *, s, int,  c, size_t,  l)
 	}
 	return s;
 }
+export_wrapper(memset);
 
 wrapper1(strlen, size_t, const char *, s)
 {
@@ -134,6 +142,7 @@ wrapper1(strlen, size_t, const char *, s)
 	__bnd_chk_ptr_bounds(s, l + 1);
 	return l;
 }
+export_wrapper(strlen);
 
 wrapper2(strnlen, size_t, const char *, s, size_t,  c)
 {
@@ -142,6 +151,7 @@ wrapper2(strnlen, size_t, const char *, s, size_t,  c)
 	__bnd_chk_ptr_bounds(s, l + 1);
 	return l;
 }
+export_wrapper(strnlen);
 
 wrapper2(strcat, char *, char *, d, const char *, s)
 {
@@ -153,6 +163,7 @@ wrapper2(strcat, char *, char *, d, const char *, s)
 
 	return wrapper_base(strcat)(d, s);
 }
+export_wrapper(strcat);
 
 wrapper3(strncat, char *, char *, d, const char *, s, size_t,  c)
 {
@@ -164,6 +175,7 @@ wrapper3(strncat, char *, char *, d, const char *, s, size_t,  c)
 
 	return wrapper_base(strncat)(d, s, c);
 }
+export_wrapper(strncat);
 
 wrapper2(strcpy, char *, char *, d, const char *, s)
 {
@@ -174,6 +186,7 @@ wrapper2(strcpy, char *, char *, d, const char *, s)
 
 	return wrapper_base(strcpy)(d, s);
 }
+export_wrapper(strcpy);
 
 wrapper3(strncpy, char *, char *, d, const char *, s, size_t,  c)
 {
@@ -184,3 +197,4 @@ wrapper3(strncpy, char *, char *, d, const char *, s, size_t,  c)
 
 	return wrapper_base(strncpy)(d, s, c);
 }
+export_wrapper(strncpy);

@@ -2394,6 +2394,7 @@ static inline int __skb_grow(struct sk_buff *skb, unsigned int len)
  *	destructor function and make the @skb unowned. The buffer continues
  *	to exist but is no longer charged to its former owner.
  */
+__attribute__((bnd_legacy))
 static inline void skb_orphan(struct sk_buff *skb)
 {
 	if (skb->destructor) {

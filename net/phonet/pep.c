@@ -200,6 +200,7 @@ static int pep_reject_conn(struct sock *sk, struct sk_buff *skb, u8 code,
 
 /* Control requests are not sent by the pipe service and have a specific
  * message format. */
+__attribute__((bnd_legacy))
 static int pep_ctrlreq_error(struct sock *sk, struct sk_buff *oskb, u8 code,
 				gfp_t priority)
 {
@@ -262,6 +263,7 @@ static void pipe_grant_credits(struct sock *sk, gfp_t priority)
 	}
 }
 
+__attribute__((bnd_legacy))
 static int pipe_rcv_status(struct sock *sk, struct sk_buff *skb)
 {
 	struct pep_sock *pn = pep_sk(sk);
@@ -492,6 +494,7 @@ static u8 pipe_negotiate_fc(const u8 *fcs, unsigned int n)
 	return final_fc;
 }
 
+__attribute__((bnd_legacy))
 static int pep_connresp_rcv(struct sock *sk, struct sk_buff *skb)
 {
 	struct pep_sock *pn = pep_sk(sk);
@@ -772,6 +775,7 @@ static void pep_sock_close(struct sock *sk, long timeout)
 	sock_put(sk);
 }
 
+__attribute__((bnd_legacy))
 static struct sock *pep_sock_accept(struct sock *sk, int flags, int *errp,
 				    bool kern)
 {

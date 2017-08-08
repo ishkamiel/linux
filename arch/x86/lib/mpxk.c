@@ -73,3 +73,4 @@ void *mpxk_load_bounds(void *ptr)
 
 	return __bnd_init_ptr_bounds(ptr);
 }
+EXPORT_SYMBOL(mpxk_load_bounds);

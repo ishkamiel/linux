@@ -300,11 +300,13 @@ static __always_inline bool __test_and_change_bit(long nr, volatile unsigned lon
  * This operation is atomic and cannot be reordered.
  * It also implies a memory barrier.
  */
+__attribute__((bnd_legacy))
 static __always_inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
 {
 	GEN_BINARY_RMWcc(LOCK_PREFIX "btc", *addr, "Ir", nr, "%0", c);
 }
 
+__attribute__((bnd_legacy))
 static __always_inline bool constant_test_bit(long nr, const volatile unsigned long *addr)
 {
 	return ((1UL << (nr & (BITS_PER_LONG-1))) &

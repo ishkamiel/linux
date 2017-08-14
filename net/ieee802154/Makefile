@@ -7,3 +7,5 @@ ieee802154-y := netlink.o nl-mac.o nl-phy.o nl_policy.o core.o \
 ieee802154_socket-y := socket.o
 
 CFLAGS_trace.o := -I$(src)
+
+ccflags-y += $(MPXK_CFLAGS)

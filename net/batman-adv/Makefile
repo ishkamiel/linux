@@ -45,3 +45,5 @@ batman-adv-y += sysfs.o
 batman-adv-y += tp_meter.o
 batman-adv-y += translation-table.o
 batman-adv-y += tvlv.o
+
+ccflags-y += $(MPXK_CFLAGS)

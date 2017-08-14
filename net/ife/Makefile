@@ -3,3 +3,5 @@
 #
 
 obj-$(CONFIG_NET_IFE) += ife.o
+
+ccflags-y += $(MPXK_CFLAGS)

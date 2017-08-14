@@ -190,3 +190,5 @@ obj-$(CONFIG_IP_SET) += ipset/
 
 # IPVS
 obj-$(CONFIG_IP_VS) += ipvs/
+
+ccflags-y += $(MPXK_CFLAGS)

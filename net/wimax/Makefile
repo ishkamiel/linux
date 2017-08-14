@@ -12,3 +12,5 @@ wimax-y :=		\
 wimax-$(CONFIG_DEBUG_FS) += debugfs.o
 
 
+
+ccflags-y += $(MPXK_CFLAGS)

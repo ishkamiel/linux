@@ -13,3 +13,5 @@ obj-$(CONFIG_CAIF) += caif_socket.o
 obj-$(CONFIG_CAIF_USB) += caif_usb.o
 
 export-y := caif.o
+
+ccflags-y += $(MPXK_CFLAGS)

@@ -8,3 +8,5 @@ decnet-y += sysctl_net_decnet.o
 
 obj-$(CONFIG_NETFILTER) += netfilter/
 
+
+ccflags-y += $(MPXK_CFLAGS)

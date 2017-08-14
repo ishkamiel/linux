@@ -3,3 +3,5 @@
 #
 
 obj-y					+= eth.o
+
+ccflags-y += $(MPXK_CFLAGS)

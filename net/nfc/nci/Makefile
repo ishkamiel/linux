@@ -11,3 +11,5 @@ obj-$(CONFIG_NFC_NCI_SPI) += nci_spi.o
 
 nci_uart-y += uart.o
 obj-$(CONFIG_NFC_NCI_UART) += nci_uart.o
+
+ccflags-y += $(MPXK_CFLAGS)

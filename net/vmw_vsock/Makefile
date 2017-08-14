@@ -11,3 +11,5 @@ vmw_vsock_vmci_transport-y += vmci_transport.o vmci_transport_notify.o \
 vmw_vsock_virtio_transport-y += virtio_transport.o
 
 vmw_vsock_virtio_transport_common-y += virtio_transport_common.o
+
+ccflags-y += $(MPXK_CFLAGS)

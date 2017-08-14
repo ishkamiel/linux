@@ -9,3 +9,5 @@ phonet-y := \
 	af_phonet.o
 
 pn_pep-y := pep.o pep-gprs.o
+
+ccflags-y += $(MPXK_CFLAGS)

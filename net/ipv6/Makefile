@@ -57,3 +57,5 @@ ifneq ($(CONFIG_IPV6),)
 obj-$(CONFIG_NET_UDP_TUNNEL) += ip6_udp_tunnel.o
 obj-y += mcast_snoop.o
 endif
+
+ccflags-y += $(MPXK_CFLAGS)

@@ -3,3 +3,5 @@
 #
 
 obj-$(CONFIG_PSAMPLE) += psample.o
+
+ccflags-y += $(MPXK_CFLAGS)

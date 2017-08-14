@@ -13,3 +13,5 @@ tipc-y	+= addr.o bcast.o bearer.o \
 tipc-$(CONFIG_TIPC_MEDIA_UDP)	+= udp_media.o
 tipc-$(CONFIG_TIPC_MEDIA_IB)	+= ib_media.o
 tipc-$(CONFIG_SYSCTL)		+= sysctl.o
+
+ccflags-y += $(MPXK_CFLAGS)

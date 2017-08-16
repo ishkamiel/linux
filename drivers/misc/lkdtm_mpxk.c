@@ -31,6 +31,7 @@ noinline void mpxk_write_arr_i(char **arr, int i, int j)
 }
 
 
+
 /**
  * mpxk_write_10_i - Test function that writes to function arg strings.
  *
@@ -164,4 +165,11 @@ void lkdtm_MPXK_MEMCPY(void)
 	/* The source is okay, but target is too small. */
 	pr_info("performing bad memcpy\n");
 	memcpy(d, s_big, 32 * sizeof(char));
+}
+
+extern void mpxk_dump_stats(void);
+
+void lkdtm_MPXK_STATS(void)
+{
+	mpxk_dump_stats();
 }

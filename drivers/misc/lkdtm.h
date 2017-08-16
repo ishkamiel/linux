@@ -34,6 +34,7 @@ void lkdtm_MPXK_LOAD_BOUNDS(void);
 void lkdtm_MPXK_FUNCTION_ARGS(void);
 void lkdtm_MPXK_KMALLOC(void);
 void lkdtm_MPXK_MEMCPY(void);
+void lkdtm_MPXK_STATS(void);
 
 /* lkdtm_heap.c */
 void lkdtm_OVERWRITE_ALLOCATION(void);

@@ -36,6 +36,9 @@ bool skip_execute(const char *attr);
 void insert_mpxk_bound_load(
 		gimple_stmt_iterator *gsi, tree pointer, tree bounds);
 
+bool cfun_has_attribute(const char *attr);
+void cfun_add_attribute(const char *new_attr);
+
 /* passes are defined in the mpxk_pass*.c files */
 struct register_pass_info *get_mpxk_wrappers_pass_info(void);
 struct register_pass_info *get_mpxk_bnd_store_pass_info(void);
@@ -47,6 +50,9 @@ void mpxk_builitins_sanity_check(void);
 bool mpxk_is_wrappable(const char *name);
 bool mpxk_is_wrapper(const char *name);
 const char *mpxk_get_wrapper_name(const char *name);
+
+/* Debug stuff */
+void cfun_dump_attributes(void);
 
 #ifdef MPXK_DEBUG
 #define dsay_print(m, ...) fprintf(stderr, "%s (%s): " m "\n",	  \

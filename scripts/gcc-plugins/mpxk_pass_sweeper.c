@@ -39,9 +39,6 @@ static unsigned int mpxk_sweeper_execute(void)
 	rtx r;
 	int found = 0;
 
-	if (skip_execute(NULL))
-		return 0;
-
 	loc = expand_location(DECL_SOURCE_LOCATION(current_function_decl));
 
 	bb = ENTRY_BLOCK_PTR_FOR_FN(cfun)->next_bb;

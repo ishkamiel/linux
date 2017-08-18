@@ -69,7 +69,6 @@ __visible int plugin_init(
 	register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL,
 			  get_mpxk_sweeper_pass_info());
 
-
 	return 0;
 }
 
@@ -99,6 +98,42 @@ bool skip_execute(const char *attr)
 				DECL_ATTRIBUTES(cfun->decl)) != NULL)
 		return true;
 	return false;
+}
+
+bool cfun_has_attribute(const char *attr)
+{
+	return (attr != NULL && lookup_attribute(attr,
+				DECL_ATTRIBUTES(cfun->decl)) != NULL);
+}
+
+void cfun_add_attribute(const char *new_attr)
+{
+	tree list = DECL_ATTRIBUTES(cfun->decl);
+	size_t len;
+	tree value;
+
+	if (cfun_has_attribute(new_attr))
+		return;
+
+	DECL_ATTRIBUTES(cfun->decl) = tree_cons(get_identifier(new_attr),
+			build_tree_list(NULL_TREE, value),
+			DECL_ATTRIBUTES(cfun->decl));
+}
+
+void cfun_dump_attributes(void)
+{
+	tree list = DECL_ATTRIBUTES(cfun->decl);
+
+	if (list == NULL)
+		return;
+
+	while (list) {
+		fprintf(stderr, "%s -> %s\n",
+			DECL_NAME_POINTER(current_function_decl),
+			IDENTIFIER_POINTER(get_attribute_name(list)));
+
+		list = TREE_CHAIN (list);
+	}
 }
 
 /**

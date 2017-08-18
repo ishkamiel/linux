@@ -38,8 +38,22 @@ static unsigned int mpxk_wrappers_execute(void)
 	gimple_stmt_iterator iter;
 	gimple stmt;
 
-	if (skip_execute(BND_LEGACY))
+	if (skip_execute(BND_LEGACY)) {
+		fprintf(stderr, "SKIPPING bnd_legacy: %s\n",
+			DECL_NAME_POINTER(current_function_decl));
 		return 0;
+	}
+
+	/* Skip all functions in special sections */
+	if (cfun_has_attribute("__section__")) {
+		fprintf(stderr, "SKIPPING section:     %s\n",
+			DECL_NAME_POINTER(current_function_decl));
+
+		cfun_add_attribute(BND_LEGACY);
+		return 0;
+	}
+
+	/* cfun_dump_attributes(); */
 
 	/* Do not modify wrapper functions */
 	if (mpxk_is_wrapper(DECL_NAME_POINTER(cfun->decl)))

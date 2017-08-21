@@ -46,11 +46,8 @@ static unsigned int mpxk_bnd_store_execute(void)
 	gcall *call;
 	tree fndecl;
 
-	if (skip_execute(BND_LEGACY)) {
-		fprintf(stderr, "SKIPPING bnd_legacy: %s\n",
-			DECL_NAME_POINTER(current_function_decl));
+	if (skip_execute(BND_LEGACY))
 		return 0;
-	}
 
 	const char *name = DECL_NAME_POINTER(cfun->decl);
 

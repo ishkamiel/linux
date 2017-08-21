@@ -95,6 +95,7 @@ static DECLARE_WAIT_QUEUE_HEAD(unix_gc_wait);
 
 unsigned int unix_tot_inflight;
 
+__attribute__((bnd_legacy))
 struct sock *unix_get_socket(struct file *filp)
 {
 	struct sock *u_sock = NULL;
@@ -115,7 +116,7 @@ struct sock *unix_get_socket(struct file *filp)
 /* Keep the number of times in flight count for the file
  * descriptor if it is for an AF_UNIX socket.
  */
-
+__attribute__((bnd_legacy))
 void unix_inflight(struct user_struct *user, struct file *fp)
 {
 	struct sock *s = unix_get_socket(fp);
@@ -137,6 +138,7 @@ void unix_inflight(struct user_struct *user, struct file *fp)
 	spin_unlock(&unix_gc_lock);
 }
 
+__attribute__((bnd_legacy))
 void unix_notinflight(struct user_struct *user, struct file *fp)
 {
 	struct sock *s = unix_get_socket(fp);
@@ -268,6 +270,7 @@ void wait_for_unix_gc(void)
 }
 
 /* The external entry point: unix_gc() */
+__attribute__((bnd_legacy))
 void unix_gc(void)
 {
 	struct unix_sock *u;

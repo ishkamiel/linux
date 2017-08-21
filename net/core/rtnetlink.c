@@ -1284,6 +1284,7 @@ err_cancel:
 	return err;
 }
 
+__attribute__((bnd_legacy))
 static int rtnl_fill_ifinfo(struct sk_buff *skb, struct net_device *dev,
 			    int type, u32 pid, u32 seq, u32 change,
 			    unsigned int flags, u32 ext_filter_mask)

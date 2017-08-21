@@ -1407,6 +1407,7 @@ static void sock_copy(struct sock *nsk, const struct sock *osk)
 #endif
 }
 
+__attribute__((bnd_legacy)) /* TODO: Add wrapper for this function? */
 static struct sock *sk_prot_alloc(struct proto *prot, gfp_t priority,
 		int family)
 {
@@ -1446,6 +1447,7 @@ out_free:
 	return NULL;
 }
 
+__attribute__((bnd_legacy))
 static void sk_prot_free(struct proto *prot, struct sock *sk)
 {
 	struct kmem_cache *slab;
@@ -1542,6 +1544,7 @@ static void __sk_destruct(struct rcu_head *head)
 	sk_prot_free(sk->sk_prot_creator, sk);
 }
 
+__attribute__((bnd_legacy))
 void sk_destruct(struct sock *sk)
 {
 	if (sock_flag(sk, SOCK_RCU_FREE))

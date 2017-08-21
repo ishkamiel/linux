@@ -213,6 +213,7 @@ static struct sock *udp6_lib_lookup2(struct net *net,
 }
 
 /* rcu_read_lock() must be held */
+__attribute__((bnd_legacy))
 struct sock *__udp6_lib_lookup(struct net *net,
 				      const struct in6_addr *saddr, __be16 sport,
 				      const struct in6_addr *daddr, __be16 dport,
@@ -526,6 +527,7 @@ out:
 	return;
 }
 
+__attribute__((bnd_legacy))
 static int __udpv6_queue_rcv_skb(struct sock *sk, struct sk_buff *skb)
 {
 	int rc;
@@ -689,6 +691,7 @@ static void udp6_csum_zero_error(struct sk_buff *skb)
  * Note: called only from the BH handler context,
  * so we don't need to lock the hashes.
  */
+__attribute__((bnd_legacy))
 static int __udp6_lib_mcast_deliver(struct net *net, struct sk_buff *skb,
 		const struct in6_addr *saddr, const struct in6_addr *daddr,
 		struct udp_table *udptable, int proto)

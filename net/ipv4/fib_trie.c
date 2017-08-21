@@ -418,6 +418,7 @@ static inline int tnode_full(struct key_vector *tn, struct key_vector *n)
 /* Add a child at position i overwriting the old value.
  * Update the value of full_children and empty_children.
  */
+__attribute__((bnd_legacy))
 static void put_child(struct key_vector *tn, unsigned long i,
 		      struct key_vector *n)
 {
@@ -447,6 +448,7 @@ static void put_child(struct key_vector *tn, unsigned long i,
 	rcu_assign_pointer(tn->tnode[i], n);
 }
 
+__attribute__((bnd_legacy))
 static void update_children(struct key_vector *tn)
 {
 	unsigned long i;
@@ -508,6 +510,7 @@ static void tnode_free(struct key_vector *tn)
 	}
 }
 
+__attribute__((bnd_legacy))
 static struct key_vector *replace(struct trie *t,
 				  struct key_vector *oldtnode,
 				  struct key_vector *tn)
@@ -848,6 +851,7 @@ static inline bool should_collapse(struct key_vector *tn)
 }
 
 #define MAX_WORK 10
+__attribute__((bnd_legacy))
 static struct key_vector *resize(struct trie *t, struct key_vector *tn)
 {
 #ifdef CONFIG_IP_FIB_TRIE_STATS
@@ -913,6 +917,7 @@ static struct key_vector *resize(struct trie *t, struct key_vector *tn)
 	return node_parent(tn);
 }
 
+__attribute__((bnd_legacy))
 static void node_pull_suffix(struct key_vector *tn, unsigned char slen)
 {
 	unsigned char node_slen = tn->slen;
@@ -1013,6 +1018,7 @@ static void trie_rebalance(struct trie *t, struct key_vector *tn)
 		tn = resize(t, tn);
 }
 
+__attribute__((bnd_legacy))
 static int fib_insert_node(struct trie *t, struct key_vector *tp,
 			   struct fib_alias *new, t_key key)
 {
@@ -1063,6 +1069,7 @@ noleaf:
 	return -ENOMEM;
 }
 
+__attribute__((bnd_legacy)) /* TODO: This caused NULL pointer deref!?! */
 static int fib_insert_alias(struct trie *t, struct key_vector *tp,
 			    struct key_vector *l, struct fib_alias *new,
 			    struct fib_alias *fa, t_key key)
@@ -1580,6 +1587,7 @@ int fib_table_delete(struct net *net, struct fib_table *tb,
 }
 
 /* Scan for the next leaf starting at the provided key value */
+__attribute__((bnd_legacy))
 static struct key_vector *leaf_walk_rcu(struct key_vector **tn, t_key key)
 {
 	struct key_vector *pn, *n = *tn;

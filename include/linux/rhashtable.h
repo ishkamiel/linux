@@ -597,6 +597,7 @@ static inline int rhashtable_compare(struct rhashtable_compare_arg *arg,
 }
 
 /* Internal function, do not use. */
+__attribute__((bnd_legacy))
 static inline struct rhash_head *__rhashtable_lookup(
 	struct rhashtable *ht, const void *key,
 	const struct rhashtable_params params)
@@ -1005,6 +1006,7 @@ static inline void *rhashtable_lookup_get_insert_key(
 }
 
 /* Internal function, please use rhashtable_remove_fast() instead */
+__attribute__((bnd_legacy))
 static inline int __rhashtable_remove_fast_one(
 	struct rhashtable *ht, struct bucket_table *tbl,
 	struct rhash_head *obj, const struct rhashtable_params params,

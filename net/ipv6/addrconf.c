@@ -1726,6 +1726,7 @@ out:
 }
 EXPORT_SYMBOL(ipv6_dev_get_saddr);
 
+__attribute__((bnd_legacy))
 int __ipv6_get_lladdr(struct inet6_dev *idev, struct in6_addr *addr,
 		      u32 banned_flags)
 {
@@ -1774,6 +1775,7 @@ static int ipv6_count_addresses(struct inet6_dev *idev)
 	return cnt;
 }
 
+__attribute__((bnd_legacy))
 int ipv6_chk_addr(struct net *net, const struct in6_addr *addr,
 		  const struct net_device *dev, int strict)
 {
@@ -1781,6 +1783,7 @@ int ipv6_chk_addr(struct net *net, const struct in6_addr *addr,
 }
 EXPORT_SYMBOL(ipv6_chk_addr);
 
+__attribute__((bnd_legacy))
 int ipv6_chk_addr_and_flags(struct net *net, const struct in6_addr *addr,
 			    const struct net_device *dev, int strict,
 			    u32 banned_flags)
@@ -1813,6 +1816,7 @@ int ipv6_chk_addr_and_flags(struct net *net, const struct in6_addr *addr,
 }
 EXPORT_SYMBOL(ipv6_chk_addr_and_flags);
 
+__attribute__((bnd_legacy))
 static bool ipv6_chk_same_addr(struct net *net, const struct in6_addr *addr,
 			       struct net_device *dev)
 {
@@ -1881,6 +1885,7 @@ int ipv6_chk_prefix(const struct in6_addr *addr, struct net_device *dev)
 }
 EXPORT_SYMBOL(ipv6_chk_prefix);
 
+__attribute__((bnd_legacy))
 struct inet6_ifaddr *ipv6_get_ifaddr(struct net *net, const struct in6_addr *addr,
 				     struct net_device *dev, int strict)
 {
@@ -3574,6 +3579,7 @@ static bool addr_is_local(const struct in6_addr *addr)
 		(IPV6_ADDR_LINKLOCAL | IPV6_ADDR_LOOPBACK);
 }
 
+__attribute__((bnd_legacy))
 static int addrconf_ifdown(struct net_device *dev, int how)
 {
 	struct net *net = dev_net(dev);
@@ -4002,6 +4008,7 @@ out:
 }
 
 /* ifp->idev must be at least read locked */
+__attribute__((bnd_legacy))
 static bool ipv6_lonely_lladdr(struct inet6_ifaddr *ifp)
 {
 	struct inet6_ifaddr *ifpiter;
@@ -4082,6 +4089,7 @@ static void addrconf_dad_completed(struct inet6_ifaddr *ifp, bool bump_id)
 		addrconf_verify_rtnl();
 }
 
+__attribute__((bnd_legacy))
 static void addrconf_dad_run(struct inet6_dev *idev)
 {
 	struct inet6_ifaddr *ifp;
@@ -4276,6 +4284,7 @@ int ipv6_chk_home_addr(struct net *net, const struct in6_addr *addr)
  *	Periodic address status verification
  */
 
+__attribute__((bnd_legacy))
 static void addrconf_verify_rtnl(void)
 {
 	unsigned long now, next, next_sec, next_sched;
@@ -4654,6 +4663,7 @@ static inline int inet6_ifaddr_msgsize(void)
 	       + nla_total_size(4)  /* IFA_FLAGS */;
 }
 
+__attribute__((bnd_legacy))
 static int inet6_fill_ifaddr(struct sk_buff *skb, struct inet6_ifaddr *ifa,
 			     u32 portid, u32 seq, int event, unsigned int flags)
 {
@@ -4837,6 +4847,7 @@ static int in6_dump_addrs(struct inet6_dev *idev, struct sk_buff *skb,
 	return err;
 }
 
+__attribute__((bnd_legacy))
 static int inet6_dump_addr(struct sk_buff *skb, struct netlink_callback *cb,
 			   enum addr_type_t type)
 {

@@ -180,6 +180,7 @@ int ip_build_and_send_pkt(struct sk_buff *skb, const struct sock *sk,
 }
 EXPORT_SYMBOL_GPL(ip_build_and_send_pkt);
 
+__attribute__((bnd_legacy))
 static int ip_finish_output2(struct net *net, struct sock *sk, struct sk_buff *skb)
 {
 	struct dst_entry *dst = skb_dst(skb);
@@ -288,6 +289,7 @@ static int ip_finish_output_gso(struct net *net, struct sock *sk,
 	return ret;
 }
 
+__attribute__((bnd_legacy))
 static int ip_finish_output(struct net *net, struct sock *sk, struct sk_buff *skb)
 {
 	unsigned int mtu;
@@ -413,6 +415,7 @@ int ip_output(struct net *net, struct sock *sk, struct sk_buff *skb)
  *   iph->saddr = fl4->saddr;
  *   iph->daddr = fl4->daddr;
  */
+__attribute__((bnd_legacy))
 static void ip_copy_addrs(struct iphdr *iph, const struct flowi4 *fl4)
 {
 	BUILD_BUG_ON(offsetof(typeof(*fl4), daddr) !=
@@ -1394,6 +1397,7 @@ static void ip_cork_release(struct inet_cork *cork)
  *	Combined all pending IP fragments on the socket as one IP datagram
  *	and push them out.
  */
+__attribute__((bnd_legacy))
 struct sk_buff *__ip_make_skb(struct sock *sk,
 			      struct flowi4 *fl4,
 			      struct sk_buff_head *queue,

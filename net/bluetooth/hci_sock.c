@@ -188,6 +188,7 @@ static bool is_filtered_packet(struct sock *sk, struct sk_buff *skb)
 }
 
 /* Send frame to RAW socket */
+__attribute__((bnd_legacy))
 void hci_send_to_sock(struct hci_dev *hdev, struct sk_buff *skb)
 {
 	struct sock *sk;
@@ -251,6 +252,7 @@ void hci_send_to_sock(struct hci_dev *hdev, struct sk_buff *skb)
 }
 
 /* Send frame to sockets with specific channel */
+__attribute__((bnd_legacy))
 void hci_send_to_channel(unsigned short channel, struct sk_buff *skb,
 			 int flag, struct sock *skip_sk)
 {

@@ -1502,6 +1502,7 @@ static void netdev_release(struct device *d)
 	netdev_freemem(dev);
 }
 
+__attribute__((bnd_legacy))
 static const void *net_namespace(struct device *d)
 {
 	struct net_device *dev = to_net_dev(d);

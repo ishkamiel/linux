@@ -447,6 +447,7 @@ static inline int neigh_hh_bridge(struct hh_cache *hh, struct sk_buff *skb)
 }
 #endif
 
+__attribute__((bnd_legacy))
 static inline int neigh_hh_output(const struct hh_cache *hh, struct sk_buff *skb)
 {
 	unsigned int seq;
@@ -469,6 +470,7 @@ static inline int neigh_hh_output(const struct hh_cache *hh, struct sk_buff *skb
 	return dev_queue_xmit(skb);
 }
 
+__attribute__((bnd_legacy))
 static inline int neigh_output(struct neighbour *n, struct sk_buff *skb)
 {
 	const struct hh_cache *hh = &n->hh;

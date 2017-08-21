@@ -180,6 +180,7 @@ static void rfkill_led_trigger_unregister(struct rfkill *rfkill)
 static struct led_trigger rfkill_any_led_trigger;
 static struct work_struct rfkill_any_work;
 
+__attribute__((bnd_legacy))
 static void rfkill_any_led_trigger_worker(struct work_struct *work)
 {
 	enum led_brightness brightness = LED_OFF;
@@ -248,6 +249,7 @@ static void rfkill_any_led_trigger_unregister(void)
 }
 #endif /* CONFIG_RFKILL_LEDS */
 
+__attribute__((bnd_legacy))
 static void rfkill_fill_event(struct rfkill_event *ev, struct rfkill *rfkill,
 			      enum rfkill_operation op)
 {
@@ -1196,6 +1198,7 @@ static ssize_t rfkill_fop_read(struct file *file, char __user *buf,
 	return ret;
 }
 
+__attribute__((bnd_legacy))
 static ssize_t rfkill_fop_write(struct file *file, const char __user *buf,
 				size_t count, loff_t *pos)
 {

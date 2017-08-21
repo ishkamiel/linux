@@ -167,6 +167,7 @@ out:
 	return rc;
 }
 
+__attribute__((bnd_legacy))
 void l3mdev_update_flow(struct net *net, struct flowi *fl)
 {
 	struct net_device *dev;

@@ -115,6 +115,7 @@ static void flush_route_cache(struct fib_rules_ops *ops)
 		ops->flush_cache(ops);
 }
 
+__attribute__((bnd_legacy))
 static int __fib_rules_register(struct fib_rules_ops *ops)
 {
 	int err = -EEXIST;

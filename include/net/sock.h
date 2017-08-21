@@ -998,6 +998,7 @@ struct module;
  * caches using SLAB_TYPESAFE_BY_RCU should let .next pointer from nulls nodes
  * un-modified. Special care is taken when initializing object to zero.
  */
+__attribute__((bnd_legacy))
 static inline void sk_prot_clear_nulls(struct sock *sk, int size)
 {
 	if (offsetof(struct sock, sk_node.next) != 0)

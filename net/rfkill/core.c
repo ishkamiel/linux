@@ -191,6 +191,7 @@ static inline void rfkill_led_trigger_unregister(struct rfkill *rfkill)
 }
 #endif /* CONFIG_RFKILL_LEDS */
 
+__attribute__((bnd_legacy))
 static void rfkill_fill_event(struct rfkill_event *ev, struct rfkill *rfkill,
 			      enum rfkill_operation op)
 {
@@ -1136,6 +1137,7 @@ static ssize_t rfkill_fop_read(struct file *file, char __user *buf,
 	return ret;
 }
 
+__attribute__((bnd_legacy))
 static ssize_t rfkill_fop_write(struct file *file, const char __user *buf,
 				size_t count, loff_t *pos)
 {

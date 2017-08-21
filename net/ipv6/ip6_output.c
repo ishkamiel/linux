@@ -57,6 +57,7 @@
 #include <linux/mroute6.h>
 #include <net/l3mdev.h>
 
+__attribute__((bnd_legacy))
 static int ip6_finish_output2(struct net *net, struct sock *sk, struct sk_buff *skb)
 {
 	struct dst_entry *dst = skb_dst(skb);

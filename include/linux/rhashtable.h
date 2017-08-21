@@ -526,6 +526,7 @@ static inline int rhashtable_compare(struct rhashtable_compare_arg *arg,
  *
  * Returns the first entry on which the compare function returned true.
  */
+__attribute__((bnd_legacy))
 static inline void *rhashtable_lookup_fast(
 	struct rhashtable *ht, const void *key,
 	const struct rhashtable_params params)
@@ -743,6 +744,7 @@ static inline int rhashtable_lookup_insert_key(
 }
 
 /* Internal function, please use rhashtable_remove_fast() instead */
+__attribute__((bnd_legacy))
 static inline int __rhashtable_remove_fast(
 	struct rhashtable *ht, struct bucket_table *tbl,
 	struct rhash_head *obj, const struct rhashtable_params params)

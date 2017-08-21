@@ -270,6 +270,7 @@ static inline void unix_insert_socket(struct hlist_head *list, struct sock *sk)
 	spin_unlock(&unix_table_lock);
 }
 
+__attribute__((bnd_legacy))
 static struct sock *__unix_find_socket_byname(struct net *net,
 					      struct sockaddr_un *sunname,
 					      int len, int type, unsigned int hash)
@@ -839,6 +840,7 @@ static int unix_release(struct socket *sock)
 	return 0;
 }
 
+__attribute__((bnd_legacy))
 static int unix_autobind(struct socket *sock)
 {
 	struct sock *sk = sock->sk;
@@ -900,6 +902,7 @@ out:	mutex_unlock(&u->bindlock);
 	return err;
 }
 
+__attribute__((bnd_legacy))
 static struct sock *unix_find_other(struct net *net,
 				    struct sockaddr_un *sunname, int len,
 				    int type, unsigned int hash, int *error)
@@ -1507,6 +1510,7 @@ static void unix_destruct_scm(struct sk_buff *skb)
  * over the limit, there might be a tiny race in actually noticing
  * it across threads. Tough.
  */
+__attribute__((bnd_legacy))
 static inline bool too_many_unix_fds(struct task_struct *p)
 {
 	struct user_struct *user = current_user();
@@ -1518,6 +1522,7 @@ static inline bool too_many_unix_fds(struct task_struct *p)
 
 #define MAX_RECURSION_LEVEL 4
 
+__attribute__((bnd_legacy))
 static int unix_attach_fds(struct scm_cookie *scm, struct sk_buff *skb)
 {
 	int i;

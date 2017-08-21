@@ -1511,6 +1511,7 @@ out:
  * Dead device goes up. We wake up dead nexthops.
  * It takes sense only on multipath routes.
  */
+__attribute__((bnd_legacy))
 int fib_sync_up(struct net_device *dev, unsigned int nh_flags)
 {
 	struct fib_info *prev_fi;

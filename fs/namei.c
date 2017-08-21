@@ -243,6 +243,7 @@ getname_kernel(const char * filename)
 	return result;
 }
 
+__attribute__((bnd_legacy))
 void putname(struct filename *name)
 {
 	BUG_ON(name->refcnt <= 0);

@@ -391,6 +391,7 @@ int udp_v4_get_port(struct sock *sk, unsigned short snum)
 	return udp_lib_get_port(sk, snum, ipv4_rcv_saddr_equal, hash2_nulladdr);
 }
 
+__attribute__((bnd_legacy))
 static int compute_score(struct sock *sk, struct net *net,
 			 __be32 saddr, __be16 sport,
 			 __be32 daddr, unsigned short hnum, int dif)
@@ -488,6 +489,7 @@ static struct sock *udp4_lib_lookup2(struct net *net,
 /* UDP is nearly always wildcards out the wazoo, it makes no sense to try
  * harder than this. -DaveM
  */
+__attribute__((bnd_legacy))
 struct sock *__udp4_lib_lookup(struct net *net, __be32 saddr,
 		__be16 sport, __be32 daddr, __be16 dport,
 		int dif, struct udp_table *udptable, struct sk_buff *skb)
@@ -557,6 +559,7 @@ begin:
 }
 EXPORT_SYMBOL_GPL(__udp4_lib_lookup);
 
+__attribute__((bnd_legacy))
 static inline struct sock *__udp4_lib_lookup_skb(struct sk_buff *skb,
 						 __be16 sport, __be16 dport,
 						 struct udp_table *udptable)
@@ -568,6 +571,7 @@ static inline struct sock *__udp4_lib_lookup_skb(struct sk_buff *skb,
 				 udptable, skb);
 }
 
+__attribute__((bnd_legacy))
 struct sock *udp4_lib_lookup_skb(struct sk_buff *skb,
 				 __be16 sport, __be16 dport)
 {
@@ -1631,6 +1635,7 @@ static void udp_sk_rx_dst_set(struct sock *sk, struct dst_entry *dst)
  *
  *	Note: called only from the BH handler context.
  */
+__attribute__((bnd_legacy))
 static int __udp4_lib_mcast_deliver(struct net *net, struct sk_buff *skb,
 				    struct udphdr  *uh,
 				    __be32 saddr, __be32 daddr,
@@ -1725,6 +1730,7 @@ static inline int udp4_csum_init(struct sk_buff *skb, struct udphdr *uh,
  *	All we need to do is get the socket, and then do a checksum.
  */
 
+__attribute__((bnd_legacy))
 int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 		   int proto)
 {
@@ -1844,6 +1850,7 @@ drop:
 /* We can only early demux multicast if there is a single matching socket.
  * If more than one socket found returns NULL
  */
+__attribute__((bnd_legacy))
 static struct sock *__udp4_lib_mcast_demux_lookup(struct net *net,
 						  __be16 loc_port, __be32 loc_addr,
 						  __be16 rmt_port, __be32 rmt_addr,
@@ -1898,6 +1905,7 @@ static struct sock *__udp4_lib_demux_lookup(struct net *net,
 	return NULL;
 }
 
+__attribute__((bnd_legacy))
 void udp_v4_early_demux(struct sk_buff *skb)
 {
 	struct net *net = dev_net(skb->dev);

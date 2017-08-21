@@ -171,6 +171,7 @@ static struct l2cap_chan *l2cap_get_chan_by_ident(struct l2cap_conn *conn,
 	return c;
 }
 
+__attribute__((bnd_legacy))
 static struct l2cap_chan *__l2cap_global_chan_by_addr(__le16 psm, bdaddr_t *src)
 {
 	struct l2cap_chan *c;
@@ -466,6 +467,7 @@ struct l2cap_chan *l2cap_chan_create(void)
 }
 EXPORT_SYMBOL_GPL(l2cap_chan_create);
 
+__attribute__((bnd_legacy))
 static void l2cap_chan_destroy(struct kref *kref)
 {
 	struct l2cap_chan *chan = container_of(kref, struct l2cap_chan, kref);

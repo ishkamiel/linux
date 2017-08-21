@@ -382,6 +382,7 @@ struct net *copy_net_ns(unsigned long flags,
 static DEFINE_SPINLOCK(cleanup_list_lock);
 static LIST_HEAD(cleanup_list);  /* Must hold cleanup_list_lock to touch */
 
+__attribute__((bnd_legacy))
 static void cleanup_net(struct work_struct *work)
 {
 	const struct pernet_operations *ops;
@@ -768,6 +769,7 @@ static int __init net_ns_init(void)
 pure_initcall(net_ns_init);
 
 #ifdef CONFIG_NET_NS
+__attribute__((bnd_legacy))
 static int __register_pernet_operations(struct list_head *list,
 					struct pernet_operations *ops)
 {
@@ -808,6 +810,7 @@ static void __unregister_pernet_operations(struct pernet_operations *ops)
 
 #else
 
+__attribute__((bnd_legacy))
 static int __register_pernet_operations(struct list_head *list,
 					struct pernet_operations *ops)
 {
@@ -826,6 +829,7 @@ static void __unregister_pernet_operations(struct pernet_operations *ops)
 
 static DEFINE_IDA(net_generic_ids);
 
+__attribute__((bnd_legacy))
 static int register_pernet_operations(struct list_head *list,
 				      struct pernet_operations *ops)
 {
@@ -881,6 +885,7 @@ static void unregister_pernet_operations(struct pernet_operations *ops)
  *	are called in the reverse of the order with which they were
  *	registered.
  */
+__attribute__((bnd_legacy))
 int register_pernet_subsys(struct pernet_operations *ops)
 {
 	int error;

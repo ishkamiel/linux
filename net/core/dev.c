@@ -242,6 +242,7 @@ static void list_netdevice(struct net_device *dev)
 /* Device list removal
  * caller must respect a RCU grace period before freeing/reusing dev
  */
+__attribute__((bnd_legacy))
 static void unlist_netdevice(struct net_device *dev)
 {
 	ASSERT_RTNL();
@@ -799,6 +800,7 @@ EXPORT_SYMBOL(dev_get_by_name);
  *	or @dev_base_lock.
  */
 
+__attribute__((bnd_legacy))
 struct net_device *__dev_get_by_index(struct net *net, int ifindex)
 {
 	struct net_device *dev;
@@ -823,6 +825,7 @@ EXPORT_SYMBOL(__dev_get_by_index);
  *	about locking. The caller must hold RCU lock.
  */
 
+__attribute__((bnd_legacy))
 struct net_device *dev_get_by_index_rcu(struct net *net, int ifindex)
 {
 	struct net_device *dev;
@@ -1852,6 +1855,7 @@ static inline bool skb_loop_sk(struct packet_type *ptype, struct sk_buff *skb)
  *	taps currently in use.
  */
 
+__attribute__((bnd_legacy))
 void dev_queue_xmit_nit(struct sk_buff *skb, struct net_device *dev)
 {
 	struct packet_type *ptype;
@@ -2874,6 +2878,7 @@ static netdev_features_t gso_features_check(const struct sk_buff *skb,
 	return features;
 }
 
+__attribute__((bnd_legacy))
 netdev_features_t netif_skb_features(struct sk_buff *skb)
 {
 	struct net_device *dev = skb->dev;
@@ -5301,6 +5306,7 @@ static bool netdev_has_any_upper_dev(struct net_device *dev)
  * Find a master upper device and return pointer to it or NULL in case
  * it's not there. The caller must hold the RTNL lock.
  */
+__attribute__((bnd_legacy))
 struct net_device *netdev_master_upper_dev_get(struct net_device *dev)
 {
 	struct netdev_adjacent *upper;
@@ -7316,6 +7322,7 @@ int register_netdev(struct net_device *dev)
 }
 EXPORT_SYMBOL(register_netdev);
 
+__attribute__((bnd_legacy))
 int netdev_refcnt_read(const struct net_device *dev)
 {
 	int i, refcnt = 0;
@@ -7412,6 +7419,7 @@ static void netdev_wait_allrefs(struct net_device *dev)
  * We must not return until all unregister events added during
  * the interval the lock was held have been completed.
  */
+__attribute__((bnd_legacy))
 void netdev_run_todo(void)
 {
 	struct list_head list;

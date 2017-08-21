@@ -147,6 +147,7 @@ static inline void ip6addrlbl_put(struct ip6addrlbl_entry *p)
 }
 
 /* Find label */
+__attribute__((bnd_legacy))
 static bool __ip6addrlbl_match(struct net *net,
 			       const struct ip6addrlbl_entry *p,
 			       const struct in6_addr *addr,
@@ -175,6 +176,7 @@ static struct ip6addrlbl_entry *__ipv6_addr_label(struct net *net,
 	return NULL;
 }
 
+__attribute__((bnd_legacy))
 u32 ipv6_addr_label(struct net *net,
 		    const struct in6_addr *addr, int type, int ifindex)
 {
@@ -241,6 +243,7 @@ static struct ip6addrlbl_entry *ip6addrlbl_alloc(struct net *net,
 }
 
 /* add a label */
+__attribute__((bnd_legacy))
 static int __ip6addrlbl_add(struct ip6addrlbl_entry *newp, int replace)
 {
 	struct hlist_node *n;
@@ -366,6 +369,7 @@ static int __net_init ip6addrlbl_net_init(struct net *net)
 	return err;
 }
 
+__attribute__((bnd_legacy))
 static void __net_exit ip6addrlbl_net_exit(struct net *net)
 {
 	struct ip6addrlbl_entry *p = NULL;

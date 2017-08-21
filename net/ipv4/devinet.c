@@ -1586,6 +1586,7 @@ nla_put_failure:
 	return -EMSGSIZE;
 }
 
+__attribute__((bnd_legacy))
 static int inet_dump_ifaddr(struct sk_buff *skb, struct netlink_callback *cb)
 {
 	struct net *net = sock_net(skb->sk);

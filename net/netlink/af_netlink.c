@@ -411,6 +411,7 @@ struct netlink_compare_arg
 #define netlink_compare_arg_len \
 	(offsetof(struct netlink_compare_arg, portid) + sizeof(u32))
 
+__attribute__((bnd_legacy))
 static inline int netlink_compare(struct rhashtable_compare_arg *arg,
 				  const void *ptr)
 {
@@ -439,6 +440,7 @@ static struct sock *__netlink_lookup(struct netlink_table *table, u32 portid,
 				      netlink_rhashtable_params);
 }
 
+__attribute__((bnd_legacy))
 static int __netlink_insert(struct netlink_table *table, struct sock *sk)
 {
 	struct netlink_compare_arg arg;
@@ -586,6 +588,7 @@ static int __netlink_create(struct net *net, struct socket *sock,
 	return 0;
 }
 
+__attribute__((bnd_legacy))
 static int netlink_create(struct net *net, struct socket *sock, int protocol,
 			  int kern)
 {
@@ -883,6 +886,7 @@ static int netlink_realloc_groups(struct sock *sk)
 	return err;
 }
 
+__attribute__((bnd_legacy))
 static void netlink_undo_bind(int group, long unsigned int groups,
 			      struct sock *sk)
 {
@@ -1220,6 +1224,7 @@ static int netlink_unicast_kernel(struct sock *sk, struct sk_buff *skb,
 	return ret;
 }
 
+__attribute__((bnd_legacy))
 int netlink_unicast(struct sock *ssk, struct sk_buff *skb,
 		    u32 portid, int nonblock)
 {
@@ -2216,6 +2221,7 @@ error_free:
 }
 EXPORT_SYMBOL(__netlink_dump_start);
 
+__attribute__((bnd_legacy))
 void netlink_ack(struct sk_buff *in_skb, struct nlmsghdr *nlh, int err)
 {
 	struct sk_buff *skb;

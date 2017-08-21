@@ -208,6 +208,7 @@ static const char *rel_type(unsigned type)
 		REL_TYPE(R_X86_64_PC16),
 		REL_TYPE(R_X86_64_8),
 		REL_TYPE(R_X86_64_PC8),
+		REL_TYPE(32),
 #else
 		REL_TYPE(R_386_NONE),
 		REL_TYPE(R_386_32),
@@ -813,7 +814,8 @@ static int do_reloc64(struct section *sec, Elf_Rel *rel, ElfW(Sym) *sym,
 		else
 			add_reloc(&relocs32, offset);
 		break;
-
+	case 32:
+		break;
 	default:
 		die("Unsupported relocation type: %s (%d)\n",
 		    rel_type(r_type), r_type);

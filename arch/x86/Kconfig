@@ -1739,6 +1739,17 @@ config X86_INTEL_MPX_KERNEL
 
 	  If unsure, say N
 
+config X86_INTEL_MPXK_WARN_ONLY
+	prompt "MPXK warn only"
+	def_bool n
+	depends on X86_INTEL_MPX_KERNEL
+	---help---
+	  Make MPXK produce only warnings instead of crashing the 
+	  system on bound violations. Useful for debugging code
+	  incompatibility issues.
+
+	  If unsure, say N
+
 config X86_INTEL_MEMORY_PROTECTION_KEYS
 	prompt "Intel Memory Protection Keys"
 	def_bool y

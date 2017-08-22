@@ -440,46 +440,62 @@ dotraplinkage void do_double_fault(struct pt_regs *regs, long error_code)
 }
 #endif
 
-inline bool do_bounds_kernel(struct pt_regs *regs, long error_code)
+#ifndef CONFIG_X86_INTEL_MPXK_WARN_ONLY
+inline static void __noreturn kernel_bounds_die(const char *message,
+					    struct pt_regs *regs)
 {
-#ifndef CONFIG_X86_INTEL_MPX_KERNEL
-	die("bounds", regs, error_code);
-#else
+	die(message, regs, 0);
+	panic(message);
+}
+#endif
+
+inline static void do_bounds_kernel(struct pt_regs *regs, long error_code)
+{
 	const struct mpx_bndcsr *bndcsr;
 	const char *err = NULL;
 
-	if (!cpu_feature_enabled(X86_FEATURE_MPX)) {
-		err = "cpu_feature_enabled(X86_FEATURE_MPX)";
-	} else {
-		bndcsr = get_xsave_field_ptr(XFEATURE_MASK_BNDCSR);
-		if (!bndcsr) {
-			err = "get_xsave_field_ptr failed";
-		} else {
-			trace_bounds_exception_mpx(bndcsr);
+	/* Make sure MPX is enabled. */
+	if (!cpu_feature_enabled(X86_FEATURE_MPX))
+		err = "MPX not enabled, but got kernel MPX fault";
 
-			switch (bndcsr->bndstatus & MPX_BNDSTA_ERROR_CODE) {
-			case 2:	/* Bound directory has invalid entry. */
-				err = "invalid bound directory entry";
-				break;
-			case 1: /* Bound violation. */
-				err = "bounds violation!!!!";
-				break;
-			case 0: /* No exception caused by Intel MPX. */
-				err = "no Intel MPX exception found!?!";
-				break;
-			default:
-				err = "unrecognized bounds(?) error";
-				break;
-			}
+	/* Load MPX fault info from xsave field. */
+	if (err == NULL) {
+		bndcsr = get_xsave_field_ptr(XFEATURE_MASK_BNDCSR);
+		if (!bndcsr)
+			err = "get_xsave_field_ptr failed";
+	}
+
+	/* Attempt to determine fault cause */
+	if (err == NULL) {
+		trace_bounds_exception_mpx(bndcsr);
+
+		switch (bndcsr->bndstatus & MPX_BNDSTA_ERROR_CODE) {
+		case 2: /* Bound directory has invalid entry.
+			 *
+			 * This indicates that either the instrumentation is faulty, i.e.
+			 * it leaves BNDLDX and BNDSTX in code, or that injected code uses
+			 * these instructions, maybe due to an MPX compiled module?
+			 * */
+			err = "invalid bound directory entry";
+			break;
+		case 1: /* Bound violation. (expected case) */
+			err = "bound violation!!!!";
+			break;
+		case 0: /* No exception caused by Intel MPX. */
+			err = "no Intel MPX exception found!?!";
+			break;
+		default:
+			err = "unrecognized bounds(?) error";
+			break;
 		}
 	}
 
-	if (err != NULL) {
-		pr_err("mpxk: %s\n", err);
-		BUG();
-	}
-	return true;
-#endif /* CONFIG_X86_INTEL_MPX_KERNEL */
+#ifndef CONFIG_X86_INTEL_MPXK_WARN_ONLY
+	kernel_bounds_die(err, regs); /* never returns */
+#endif
+	cond_local_irq_enable(regs);
+	printk(KERN_EMERG "MPXK error: %s\n", err);
+	dump_stack();
 }
 
 dotraplinkage void do_bounds(struct pt_regs *regs, long error_code)
@@ -488,13 +504,23 @@ dotraplinkage void do_bounds(struct pt_regs *regs, long error_code)
 	siginfo_t *info;
 
 	RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
+
+#ifdef CONFIG_X86_INTEL_MPX_KERNEL
+	if (!user_mode(regs)) {
+		do_bounds_kernel(regs, error_code);
+		return;
+	}
+#endif /* CONFIG_X86_INTEL_MPX_KERNEL */
+
 	if (notify_die(DIE_TRAP, "bounds", regs, error_code,
 			X86_TRAP_BR, SIGSEGV) == NOTIFY_STOP)
 		return;
 	cond_local_irq_enable(regs);
 
+#ifndef CONFIG_X86_INTEL_MPX_KERNEL
 	if (!user_mode(regs))
-		do_bounds_kernel(regs, error_code);
+		die("bounds", regs, error_code);
+#endif /* CONFIG_X86_INTEL_MPX_KERNEL */
 
 	if (!cpu_feature_enabled(X86_FEATURE_MPX)) {
 		/* The exception is not from Intel MPX */

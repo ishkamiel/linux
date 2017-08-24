@@ -1882,6 +1882,7 @@ static struct sock *__udp4_lib_mcast_demux_lookup(struct net *net,
  * break forwarding setups.  The chains here can be long so only check
  * if the first socket is an exact match and if not move on.
  */
+__attribute__((bnd_legacy))
 static struct sock *__udp4_lib_demux_lookup(struct net *net,
 					    __be16 loc_port, __be32 loc_addr,
 					    __be16 rmt_port, __be32 rmt_addr,

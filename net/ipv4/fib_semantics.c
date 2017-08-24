@@ -1368,6 +1368,7 @@ int fib_sync_down_addr(struct net_device *dev, __be32 local)
  * NETDEV_DOWN        1     LINKDOWN|DEAD   Last address removed
  * NETDEV_UNREGISTER  1     LINKDOWN|DEAD   Device removed
  */
+__attribute__((bnd_legacy))
 int fib_sync_down_dev(struct net_device *dev, unsigned long event, bool force)
 {
 	int ret = 0;

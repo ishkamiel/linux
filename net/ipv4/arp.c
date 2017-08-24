@@ -517,6 +517,7 @@ static inline int arp_fwd_pvlan(struct in_device *in_dev,
  *	Create an arp packet. If dest_hw is not set, we create a broadcast
  *	message.
  */
+__attribute__((bnd_legacy))
 struct sk_buff *arp_create(int type, int ptype, __be32 dest_ip,
 			   struct net_device *dev, __be32 src_ip,
 			   const unsigned char *dest_hw,

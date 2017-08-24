@@ -691,6 +691,7 @@ notnode:
 	return NULL;
 }
 
+__attribute__((bnd_legacy))
 static struct key_vector *collapse(struct trie *t,
 				   struct key_vector *oldtnode)
 {

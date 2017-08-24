@@ -90,6 +90,7 @@ void lkdtm_MPXK_LOAD_BOUNDS(void)
 	pr_info("attempting real bad ptr write (should be caught)\n");
 	mpxk_write_arr_i(arr, 5, 1024);
 
+	pr_info("cleaning up\n");
 	for (i = 0; i < 10; i++)
 		kfree(arr[i]);
 }
@@ -124,6 +125,7 @@ void lkdtm_MPXK_FUNCTION_ARGS(void)
 			arr[0], arr[1], arr[2], arr[3], arr[4],
 			arr[5], arr[6], arr[7], arr[8], arr[9]);
 
+	pr_info("cleaning up\n");
 	for (i = 0; i < 10; i++)
 		kfree(arr[i]);
 }
@@ -143,6 +145,7 @@ void lkdtm_MPXK_KMALLOC(void)
 	pr_info("attempting bad write\n");
 	try_write(ptr, 11);
 
+	pr_info("cleaning up\n");
 	kfree(ptr);
 }
 
@@ -164,4 +167,7 @@ void lkdtm_MPXK_MEMCPY(void)
 	/* The source is okay, but target is too small. */
 	pr_info("performing bad memcpy\n");
 	memcpy(d, s_big, 32 * sizeof(char));
+
+	pr_info("cleaning up\n");
+	kfree(d);
 }

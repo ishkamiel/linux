@@ -9,6 +9,9 @@
 #include <asm/mpx.h>
 #include <linux/types.h>
 
+extern void mpxk_dump_stats(void)
+{}
+
 static inline void mpxk_enable_mpx(void)
 {}
 

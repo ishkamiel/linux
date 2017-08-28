@@ -11,6 +11,7 @@
 #include <asm-generic/mpxk.h>
 #else /*CONFIG_X86_INTEL_MPX_KERNEL */
 
+extern void mpxk_dump_stats(void);
 extern void mpxk_enable_mpx(void);
 extern void mpxk_print_bounds(const char *str, const void *ptr);
 

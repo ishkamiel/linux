@@ -1,0 +1,10 @@
+e99ef86 lkdtm_mpxk_perf: safety checks
+1,000 runs:
+[   44.958147] perf_cfg(size=64,iter=1000)=>(legacy=81148,got_bounds=103835,load_bounds=220437)
+[   45.039191] perf_cfg(size=4096,iter=1000)=>(legacy=248097,got_bounds=284929,load_bounds=498056)
+[   50.062438] perf_cfg(size=262144,iter=1000)=>(legacy=11873452,got_bounds=11996971,load_bounds=12359540)
+10,000 runs:
+[  502.886155] perf_cfg(size=64,iter=1000)=>(legacy=110847271,got_bounds=111848655,load_bounds=114987044)
+[  502.967883] perf_cfg(size=4096,iter=1000)=>(legacy=111024100,got_bounds=112043294,load_bounds=115267344)
+[  507.974969] perf_cfg(size=262144,iter=1000)=>(legacy=122581457,got_bounds=123485380,load_bounds=126894973)
+

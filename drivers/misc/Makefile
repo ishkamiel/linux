@@ -66,6 +66,8 @@ lkdtm-$(CONFIG_LKDTM)		+= lkdtm_usercopy.o
 
 lkdtm-$(CONFIG_LKDTM)		+= lkdtm_mpxk.o
 CFLAGS_lkdtm_mpxk.o		+= $(MPXK_CFLAGS)
+lkdtm-$(CONFIG_LKDTM)		+= lkdtm_mpxk_perf.o
+CFLAGS_lkdtm_mpxk_perf.o	+= $(MPXK_CFLAGS)
 
 OBJCOPYFLAGS :=
 OBJCOPYFLAGS_lkdtm_rodata_objcopy.o := \

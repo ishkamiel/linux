@@ -3,7 +3,8 @@
  *
  * Brute force RTL pass that removes all BNDSTX/BNDLDX instructions.
  *
- * Copyright (C) 2017 Aalto University
+ * Author: Hans Liljestrand <LiljestrandH@gmail.com>
+ * Copyright: Secure Systems Group, Aalto University, ssg.aalto.fi
  *
  * This file is released under the GPLv2.
  */

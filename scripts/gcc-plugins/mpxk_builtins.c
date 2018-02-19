@@ -4,7 +4,8 @@
  * Defines various helper functions for identifying interesting functions
  * and converting names for wrapper functions.
  *
- * Copyright (C) 2017 Aalto University
+ * Author: Hans Liljestrand <LiljestrandH@gmail.com>
+ * Copyright: Secure Systems Group, Aalto University, ssg.aalto.fi
  *
  * This file is released under the GPLv2.
  */

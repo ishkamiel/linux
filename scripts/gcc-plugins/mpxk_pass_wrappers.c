@@ -4,7 +4,8 @@
  * A pre-chkp pass that inserts MPXK wrappers for covered memory altering
  * functions such as kmalloc & friends.
  *
- * Copyright (C) 2017 Aalto University
+ * Author: Hans Liljestrand <LiljestrandH@gmail.com>
+ * Copyright: Secure Systems Group, Aalto University, ssg.aalto.fi
  *
  * This file is released under the GPLv2.
  */

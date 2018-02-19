@@ -6,7 +6,8 @@
  * are then manually initialized at function start using the MPXK bound
  * load function.
  *
- * Copyright (C) 2017 Aalto University
+ * Author: Hans Liljestrand <LiljestrandH@gmail.com>
+ * Copyright: Secure Systems Group, Aalto University, ssg.aalto.fi
  *
  * This file is released under the GPLv2.
  */

@@ -181,11 +181,17 @@
 		clock-names = "timclken1", "timclken2", "apb_pclk";
 	};
 
-	virtio_block@1c0130000 {
+	virtio_block@1c130000 {
 		compatible = "virtio,mmio";
 		reg = <0x0 0x1c130000 0x0 0x200>;
 		interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
 	};
+
+virtio_p9@1c140000 {
+    compatible = "virtio,mmio";
+    reg = <0x0 0x1c140000 0x0 0x1000>;
+    interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+};
 
 	rtc@1c170000 {
 		compatible = "arm,pl031", "arm,primecell";

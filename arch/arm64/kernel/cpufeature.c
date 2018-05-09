@@ -801,6 +801,11 @@ static bool has_no_fpsimd(const struct arm64_cpu_capabilities *entry, int __unus
 }
 
 #ifdef CONFIG_ARM64_PTR_AUTH
+static int cpu_enable_address_auth(void * __unused)
+{
+	config_sctlr_el1(0, SCTLR_ELx_ENIA);
+}
+
 static bool has_address_auth(const struct arm64_cpu_capabilities *entry,
 			     int __unused)
 {
@@ -946,6 +951,7 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
 		.capability = ARM64_HAS_ADDRESS_AUTH,
 		.def_scope = SCOPE_SYSTEM,
 		.matches = has_address_auth,
+		.enable = cpu_enable_address_auth
 	},
 #endif /* CONFIG_ARM64_PTR_AUTH */
 	{},

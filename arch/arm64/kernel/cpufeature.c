@@ -804,6 +804,9 @@ static bool has_no_fpsimd(const struct arm64_cpu_capabilities *entry, int __unus
 static int cpu_enable_address_auth(void * __unused)
 {
 	config_sctlr_el1(0, SCTLR_ELx_ENIA);
+	config_sctlr_el1(0, SCTLR_ELx_ENIB);
+	config_sctlr_el1(0, SCTLR_ELx_ENDA);
+	config_sctlr_el1(0, SCTLR_ELx_ENDB);
 }
 
 static bool has_address_auth(const struct arm64_cpu_capabilities *entry,

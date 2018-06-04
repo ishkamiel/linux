@@ -40,6 +40,9 @@ struct ptrauth_key {
  */
 struct ptrauth_keys {
 	struct ptrauth_key apia;
+	struct ptrauth_key apib;
+	struct ptrauth_key apda;
+	struct ptrauth_key apdb;
 };
 
 static inline void ptrauth_keys_init(struct ptrauth_keys *keys)
@@ -62,6 +65,10 @@ static inline void ptrauth_keys_switch(struct ptrauth_keys *keys)
 		return;
 
 	__ptrauth_key_install(APIA, keys->apia);
+	__ptrauth_key_install(APIB, keys->apib);
+	__ptrauth_key_install(APDA, keys->apda);
+	__ptrauth_key_install(APDB, keys->apdb);
+	printk("Setting me some keys\n");
 }
 
 static inline void ptrauth_keys_dup(struct ptrauth_keys *old,
